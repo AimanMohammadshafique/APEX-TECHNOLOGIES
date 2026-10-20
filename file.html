@@ -1,0 +1,806 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090713">
+<title>Happy Birthday Iqra Mumtaz ♡</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap');
+
+:root {
+    --pink: #ff83bd;
+    --purple: #ad8aff;
+    --gold: #ffdf9a;
+    --white: #fff8ff;
+    --muted: #c5b8d7;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    background:
+        radial-gradient(ellipse at 50% 0%, #261437 0%, transparent 52%),
+        #090713;
+    color: var(--white);
+    font-family: 'Poppins', sans-serif;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: .18;
+    background-image: radial-gradient(#fff 0.7px, transparent 0.7px);
+    background-size: 38px 38px;
+    z-index: 0;
+}
+
+#fireworks {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.ambient {
+    position: fixed;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    filter: blur(110px);
+    opacity: .22;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.ambient.one {
+    background: #ff48ac;
+    top: -120px;
+    left: -100px;
+}
+
+.ambient.two {
+    background: #7655ff;
+    right: -100px;
+    bottom: -100px;
+}
+
+main {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 35px 16px;
+}
+
+.card {
+    width: 100%;
+    max-width: 700px;
+    padding: 42px 35px;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,.13);
+    border-radius: 30px;
+    background: linear-gradient(
+        145deg,
+        rgba(255,255,255,.085),
+        rgba(255,255,255,.025)
+    );
+    backdrop-filter: blur(16px);
+    box-shadow: 0 30px 100px #0006;
+    animation: enter 1s ease both;
+}
+
+@keyframes enter {
+    from { opacity: 0; transform: translateY(25px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.badge {
+    display: inline-block;
+    padding: 8px 16px;
+    margin-bottom: 22px;
+    border: 1px solid #ff83bd50;
+    border-radius: 50px;
+    background: #ff83bd0c;
+    color: #ffc1e1;
+    font-size: 10px;
+    letter-spacing: 3px;
+}
+
+h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(34px, 7vw, 60px);
+    line-height: 1.2;
+}
+
+.gradient {
+    display: block;
+    padding-bottom: 5px;
+    background: linear-gradient(100deg, #ffb9df, #c4a7ff, #ffe2a1);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.subtitle {
+    margin-top: 13px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.divider {
+    width: 80px;
+    height: 2px;
+    margin: 25px auto;
+    background: linear-gradient(90deg, transparent, var(--pink), var(--gold), transparent);
+}
+
+/* GIFT BOX */
+
+.gift-area {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 18px auto 24px;
+}
+
+.gift-instruction {
+    color: #e5d4f7;
+    font-size: 12px;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.gift-button {
+    position: relative;
+    width: 180px;
+    height: 180px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
+    perspective: 800px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.gift-button:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 8px;
+    border-radius: 15px;
+}
+
+.gift {
+    position: absolute;
+    left: 20px;
+    bottom: 10px;
+    width: 140px;
+    height: 112px;
+    transform-style: preserve-3d;
+    transition: transform .6s ease;
+    filter: drop-shadow(0 14px 17px #0007);
+}
+
+.gift-base {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 140px;
+    height: 92px;
+    border-radius: 5px 5px 12px 12px;
+    background: linear-gradient(110deg, #a42c75, #ed6cae 50%, #8c246a);
+    border-bottom: 3px solid #ffb2d8;
+    overflow: hidden;
+}
+
+.gift-base::before {
+    content: "";
+    position: absolute;
+    width: 25px;
+    height: 100%;
+    left: 57px;
+    background: linear-gradient(90deg, #ffe4a4, #fff0c6, #e9b85d);
+}
+
+.gift-base::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, #fff3 0%, transparent 35%, #0002 100%);
+}
+
+.gift-lid {
+    position: absolute;
+    left: -7px;
+    top: 5px;
+    width: 154px;
+    height: 30px;
+    border-radius: 5px;
+    background: linear-gradient(100deg, #d9529d, #ff9acb, #b93c86);
+    border-bottom: 3px solid #a72c76;
+    transform-origin: 10% 90%;
+    transition: transform .8s cubic-bezier(.2,.8,.2,1);
+    z-index: 3;
+}
+
+.gift-lid::before {
+    content: "";
+    position: absolute;
+    left: 64px;
+    top: 0;
+    height: 27px;
+    width: 25px;
+    background: linear-gradient(90deg, #e9b85d, #fff0c6, #e9b85d);
+}
+
+.ribbon-loop {
+    position: absolute;
+    left: 55px;
+    top: -27px;
+    width: 29px;
+    height: 28px;
+    border: 8px solid #ffe5a8;
+    border-radius: 20px 20px 5px 20px;
+    transform: rotate(25deg);
+    z-index: 4;
+}
+
+.ribbon-loop.second {
+    left: 79px;
+    transform: scaleX(-1) rotate(25deg);
+}
+
+.gift-button:not(.opened) .gift {
+    animation: giftFloat 2.4s ease-in-out infinite;
+}
+
+@keyframes giftFloat {
+    0%, 100% { transform: translateY(0) rotate(0); }
+    50% { transform: translateY(-8px) rotate(1deg); }
+}
+
+.gift-button.opened .gift-lid {
+    transform: translate(-22px, -65px) rotate(-28deg);
+}
+
+.gift-button.opened .gift {
+    animation: none;
+    transform: translateY(5px);
+}
+
+.gift-button.opened .ribbon-loop {
+    opacity: .5;
+}
+
+.gift-spark {
+    position: absolute;
+    color: var(--gold);
+    font-size: 20px;
+    pointer-events: none;
+    animation: sparkle 2s ease-in-out infinite;
+}
+
+.gift-spark.s1 { top: 12px; left: 5px; }
+.gift-spark.s2 { top: 35px; right: 3px; animation-delay: .7s; }
+.gift-spark.s3 { bottom: 5px; left: 0; animation-delay: 1.2s; }
+
+@keyframes sparkle {
+    0%, 100% { opacity: .25; transform: scale(.7) rotate(0); }
+    50% { opacity: 1; transform: scale(1.2) rotate(25deg); }
+}
+
+.gift-button.opened ~ .gift-instruction {
+    color: var(--gold);
+}
+
+/* MESSAGE */
+
+.message {
+    text-align: left;
+    padding: 25px;
+    border: 1px solid #ffffff12;
+    border-radius: 19px;
+    background: #08061155;
+    color: #e8deef;
+    font-size: 13px;
+    line-height: 2;
+}
+
+.message p {
+    margin-bottom: 14px;
+}
+
+.message p:last-child {
+    margin-bottom: 0;
+}
+
+.pink {
+    color: #ffabd5;
+    font-weight: 600;
+}
+
+.gold {
+    color: var(--gold);
+    font-weight: 500;
+}
+
+/* EXTRA SURPRISE */
+
+.surprise {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(10px);
+    transition: max-height .9s ease, opacity .6s ease, transform .6s ease, margin .6s ease;
+    margin-top: 0;
+}
+
+.surprise.show {
+    max-height: 500px;
+    opacity: 1;
+    transform: translateY(0);
+    margin-top: 22px;
+}
+
+.surprise-content {
+    padding: 24px;
+    border: 1px solid #ffacd52d;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #ff83bd13, #ad8aff14);
+    font-size: 13px;
+    line-height: 2;
+    color: #f1e6f6;
+}
+
+.surprise-content p {
+    margin-bottom: 12px;
+}
+
+.surprise-content p:last-child {
+    margin-bottom: 0;
+}
+
+button.action {
+    margin-top: 22px;
+    padding: 14px 24px;
+    border: 0;
+    border-radius: 50px;
+    background: linear-gradient(100deg, #ffb5dc, #d5b8ff, #ffe3a3);
+    color: #251329;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 12px;
+    cursor: pointer;
+    transition: transform .25s, box-shadow .25s;
+    box-shadow: 0 8px 28px #ff83bd1c;
+}
+
+button.action:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px #ff83bd35;
+}
+
+.signature {
+    margin-top: 30px;
+    padding-top: 23px;
+    border-top: 1px solid #ffffff12;
+}
+
+.signature small {
+    display: block;
+    color: #a99ab8;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+    margin-bottom: 9px;
+}
+
+.signature strong {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-style: italic;
+    background: linear-gradient(90deg, #ffb3d7, #e1c7ff, #ffe2aa);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.footer {
+    margin-top: 22px;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #85748f;
+}
+
+@media (max-width: 480px) {
+    .card { padding: 32px 19px; border-radius: 23px; }
+    .message { padding: 19px; font-size: 12px; }
+    .subtitle { font-size: 12px; }
+    .badge { font-size: 9px; letter-spacing: 2px; }
+    .gift-button { transform: scale(.92); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="fireworks" aria-hidden="true"></canvas>
+
+<div class="ambient one"></div>
+<div class="ambient two"></div>
+
+<main>
+<article class="card">
+
+    <div class="badge">A SPECIAL DAY · JUST FOR YOU</div>
+
+    <h1>
+        Happy Birthday
+        <span class="gradient">Iqra Mumtaz ♡</span>
+    </h1>
+
+    <p class="subtitle">
+        A little surprise, made with lots of good wishes. ✨
+    </p>
+
+    <div class="divider"></div>
+
+    <div class="gift-area">
+        <p class="gift-instruction" id="giftInstruction">
+            TAP THE GIFT TO OPEN YOUR SURPRISE
+        </p>
+
+        <button
+            class="gift-button"
+            id="giftButton"
+            aria-label="Open your birthday gift"
+            aria-expanded="false"
+            aria-controls="surprise"
+        >
+            <span class="gift-spark s1">✦</span>
+            <span class="gift-spark s2">✧</span>
+            <span class="gift-spark s3">✦</span>
+
+            <span class="gift">
+                <span class="gift-base"></span>
+                <span class="gift-lid"></span>
+                <span class="ribbon-loop"></span>
+                <span class="ribbon-loop second"></span>
+            </span>
+        </button>
+    </div>
+
+    <section class="message">
+
+        <p>
+            <span class="pink">Happy Birthday, Iqra Mumtaz! 🎂💗</span>
+        </p>
+
+        <p>
+            Aaj ka din tumhare liye bahut special hai. Meri wish hai
+            ki tumhara har din khushiyon aur beautiful moments se bhara rahe.
+        </p>
+
+        <p>
+            Yaar, hamesha khush rehna, apne dreams achieve karna
+            aur life mein khoob aage badhna. May all your wishes come true. ✨
+        </p>
+
+        <p>
+            Aaj apna special day enjoy karna, khoob smile karna
+            aur beautiful memories banana. 😊
+        </p>
+
+        <p>
+            I hope tumhari life mein hamesha happiness, peace,
+            success aur achhe log rahein.
+        </p>
+
+        <p>
+            <span class="gold">
+                Happy Birthday once again! Stay blessed and keep shining. 💖
+            </span>
+        </p>
+
+    </section>
+
+    <section class="surprise" id="surprise" aria-hidden="true" inert>
+        <div class="surprise-content">
+
+            <p class="pink">A little extra wish for you... 💌</p>
+
+            <p>
+                I hope tumhare saare dreams poore hon aur tumhe
+                life mein bahut saari happiness mile.
+            </p>
+
+            <p>
+                Har naya din tumhare liye naye opportunities laaye,
+                aur tum apni life mein hamesha confident aur happy raho.
+            </p>
+
+            <p>
+                Oye, aaj toh bas smile karna aur apna birthday
+                achhe se enjoy karna! 🎂
+            </p>
+
+            <p class="gold">
+                Wishing you a beautiful year ahead, Iqra. ♡
+            </p>
+
+        </div>
+    </section>
+
+    <button class="action" id="wishButton" aria-controls="surprise">
+        Read Your Special Wish 💌
+    </button>
+
+    <div class="signature">
+        <small>WITH BEST WISHES & GOOD VIBES</small>
+        <strong>— Aiman </strong>
+    </div>
+
+    <div class="footer">
+        MADE WITH CARE · JUST FOR IQRA
+    </div>
+
+</article>
+</main>
+
+<script>
+/* -------------------------------
+   PREMIUM FIREWORKS
+-------------------------------- */
+
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+let width, height;
+let particles = [];
+let rockets = [];
+let lastAutoFirework = 0;
+let lastFrame = 0;
+let running = true;
+
+const colors = [
+    "#ff91c8",
+    "#c5a6ff",
+    "#ffe3a1",
+    "#ffffff",
+    "#ffb0a6"
+];
+
+const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+);
+
+function resizeCanvas() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    width = window.innerWidth;
+    height = window.innerHeight;
+
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+
+    canvas.style.width = width + "px";
+    canvas.style.height = height + "px";
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+function launchFirework(x, y) {
+    if (reducedMotion.matches) return;
+
+    const targetX = x ?? width * (.18 + Math.random() * .64);
+    const targetY = y ?? height * (.12 + Math.random() * .38);
+
+    rockets.push({
+        x: targetX,
+        startY: height + 10,
+        targetY,
+        speed: 7 + Math.random() * 3,
+        color: colors[Math.floor(Math.random() * colors.length)]
+    });
+}
+
+function explode(x, y, color) {
+    const count = 42 + Math.floor(Math.random() * 28);
+
+    for (let i = 0; i < count; i++) {
+        const angle = Math.PI * 2 * i / count;
+        const speed = 1.1 + Math.random() * 3.8;
+
+        particles.push({
+            x, y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            alpha: 1,
+            decay: .009 + Math.random() * .013,
+            size: 1 + Math.random() * 2,
+            color: Math.random() > .3
+                ? color
+                : colors[Math.floor(Math.random() * colors.length)]
+        });
+    }
+}
+
+function animateFireworks(timestamp) {
+    if (!running) return;
+
+    requestAnimationFrame(animateFireworks);
+
+    if (reducedMotion.matches) {
+        ctx.clearRect(0, 0, width, height);
+        particles = [];
+        rockets = [];
+        return;
+    }
+
+    // Limit work on slower devices.
+    if (timestamp - lastFrame < 28) return;
+    lastFrame = timestamp;
+
+    ctx.clearRect(0, 0, width, height);
+
+    if (timestamp - lastAutoFirework > 1250) {
+        launchFirework();
+        lastAutoFirework = timestamp;
+    }
+
+    rockets.forEach((r, i) => {
+        r.startY -= r.speed;
+
+        ctx.beginPath();
+        ctx.moveTo(r.x, r.startY + 18);
+        ctx.lineTo(r.x, r.startY);
+        ctx.strokeStyle = r.color;
+        ctx.globalAlpha = .8;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+
+        if (r.startY <= r.targetY) {
+            explode(r.x, r.startY, r.color);
+            rockets.splice(i, 1);
+        }
+    });
+
+    particles = particles.filter(p => p.alpha > .025);
+
+    for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        p.vx *= .985;
+        p.vy = p.vy * .985 + .025;
+        p.alpha -= p.decay;
+
+        ctx.globalAlpha = Math.max(0, p.alpha);
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+    }
+
+    ctx.globalAlpha = 1;
+}
+
+requestAnimationFrame(animateFireworks);
+
+/* Fireworks when the page is clicked */
+
+document.addEventListener("click", function(event) {
+    if (reducedMotion.matches) return;
+
+    if (event.target.closest("button")) return;
+
+    if (particles.length < 500) {
+        launchFirework(event.clientX, event.clientY);
+    }
+});
+
+/* Stop animation when tab is hidden */
+
+document.addEventListener("visibilitychange", function() {
+    if (document.hidden) {
+        running = false;
+        ctx.clearRect(0, 0, width, height);
+    } else if (!running) {
+        running = true;
+        lastFrame = 0;
+        lastAutoFirework = 0;
+        requestAnimationFrame(animateFireworks);
+    }
+});
+
+/* -------------------------------
+   GIFT BOX AND SURPRISE
+-------------------------------- */
+
+const giftButton = document.getElementById("giftButton");
+const instruction = document.getElementById("giftInstruction");
+const surprise = document.getElementById("surprise");
+const wishButton = document.getElementById("wishButton");
+
+let giftOpened = false;
+let wishOpened = false;
+
+function openGift() {
+    if (giftOpened) return;
+
+    giftOpened = true;
+
+    giftButton.classList.add("opened");
+    giftButton.setAttribute("aria-expanded", "true");
+    instruction.textContent = "YOUR LITTLE SURPRISE IS HERE ✨";
+
+    surprise.classList.add("show");
+    surprise.setAttribute("aria-hidden", "false");
+    surprise.inert = false;
+
+    wishOpened = true;
+    wishButton.textContent = "Close Your Special Wish";
+    wishButton.setAttribute("aria-expanded", "true");
+
+    if (!reducedMotion.matches) {
+        for (let i = 0; i < 5; i++) {
+            setTimeout(() => {
+                launchFirework(
+                    width * (.2 + Math.random() * .6),
+                    height * (.12 + Math.random() * .35)
+                );
+            }, i * 180);
+        }
+    }
+}
+
+function toggleWish() {
+    if (!giftOpened) {
+        openGift();
+        return;
+    }
+
+    wishOpened = !wishOpened;
+
+    surprise.classList.toggle("show", wishOpened);
+    surprise.setAttribute("aria-hidden", String(!wishOpened));
+    surprise.inert = !wishOpened;
+
+    wishButton.textContent = wishOpened
+        ? "Close Your Special Wish"
+        : "Read Your Special Wish 💌";
+}
+
+giftButton.addEventListener("click", openGift);
+wishButton.addEventListener("click", toggleWish);
+</script>
+
+</body>
+</html>

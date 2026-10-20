@@ -1,0 +1,1648 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/png" href="/favicon.png">
+
+  <!-- Primary SEO Meta Tags -->
+  <title>APEX — Build. Innovate. Grow.</title>
+  <meta name="title" content="APEX — Build. Innovate. Grow.">
+  <meta name="description" content="Welcome to APEX, a next-generation platform for technology, innovation, creativity and growth. Discover the future with XYZ.">
+  <meta name="keywords" content="APEX, technology, innovation, digital platform, futuristic website, creative technology">
+  <meta name="author" content="APEX">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="theme-color" content="#050914">
+  <meta name="color-scheme" content="dark">
+
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="APEX — Build. Innovate. Grow.">
+  <meta property="og:description" content="Ideas. Technology. Impact. Discover the future with XYZ.">
+  <meta property="og:site_name" content="APEX">
+  <meta property="og:locale" content="en_US">
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="APEX — Build. Innovate. Grow.">
+  <meta name="twitter:description" content="A new vision for technology and innovation.">
+
+  <!-- Browser & Mobile -->
+  <meta name="format-detection" content="telephone=no">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
+  <!-- Premium Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+  <style>
+    /* =========================
+       1. ROOT & RESET
+    ========================= */
+    :root {
+      --bg: #050914;
+      --bg-light: #0a1222;
+      --card: rgba(10, 21, 39, 0.70);
+      --text: #f4f7ff;
+      --muted: #a0b0c9;
+      --cyan: #27d8ff;
+      --blue: #397bff;
+      --purple: #8055ff;
+      --border: rgba(104, 177, 255, 0.18);
+      --gradient: linear-gradient(110deg, #20d9ff, #4778ff 55%, #9355ff);
+      --radius: 22px;
+      --max-width: 1240px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', Arial, sans-serif;
+      line-height: 1.65;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 80% 15%, rgba(39, 104, 255, .13), transparent 35%),
+        radial-gradient(ellipse at 10% 55%, rgba(30, 209, 255, .07), transparent 32%),
+        radial-gradient(ellipse at 75% 80%, rgba(124, 70, 255, .08), transparent 35%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button, a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    button:focus-visible, a:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 5px;
+    }
+
+    .container {
+      width: min(var(--max-width), 90%);
+      margin-inline: auto;
+    }
+
+    .gradient-text {
+      background: var(--gradient);
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    .section {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .section-label {
+      color: var(--cyan);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: .76rem;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .section-heading {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.16;
+      letter-spacing: -1.8px;
+      margin-bottom: 20px;
+    }
+
+    .section-description {
+      max-width: 600px;
+      color: var(--muted);
+      font-size: .98rem;
+    }
+
+    /* =========================
+       2. NAVIGATION
+    ========================= */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5, 9, 20, .82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(120, 180, 255, .12);
+    }
+
+    .nav-inner {
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 2rem;
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .brand-symbol {
+      width: 39px;
+      height: 39px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      font-size: 1.15rem;
+      letter-spacing: -1px;
+      color: white;
+      background: var(--gradient);
+      box-shadow: 0 0 25px rgba(54, 126, 255, .30);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: .88rem;
+      color: #c6d2e7;
+      transition: color .25s;
+    }
+
+    .nav-links a:hover {
+      color: var(--cyan);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .icon-link {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      color: #dceaff;
+      font-size: 1.1rem;
+      border-radius: 50%;
+      transition: background .25s, color .25s;
+    }
+
+    .icon-link:hover {
+      background: rgba(255,255,255,.07);
+      color: var(--cyan);
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+
+    /* =========================
+       3. BUTTONS
+    ========================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 48px;
+      padding: 0 24px;
+      border: 1px solid transparent;
+      border-radius: 50px;
+      font-size: .88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+    }
+
+    .btn-primary {
+      color: white;
+      background: var(--gradient);
+      box-shadow: 0 8px 28px rgba(48, 115, 255, .20);
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 12px 38px rgba(48, 115, 255, .38);
+    }
+
+    .btn-outline {
+      background: rgba(6, 15, 29, .55);
+      border-color: rgba(42, 164, 255, .65);
+      color: #edf6ff;
+    }
+
+    .btn-outline:hover {
+      border-color: var(--cyan);
+      box-shadow: 0 0 24px rgba(39, 216, 255, .12);
+    }
+
+    /* =========================
+       4. HERO SECTION
+    ========================= */
+    .hero {
+      min-height: 650px;
+      display: flex;
+      align-items: center;
+      padding: 75px 0 65px;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 650px;
+      height: 650px;
+      top: -40px;
+      right: -120px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(30, 107, 255, .14), transparent 67%);
+      filter: blur(10px);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      gap: 35px;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      animation: fade-up .8s ease both;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: 50px;
+      background: rgba(16, 37, 65, .40);
+      color: #c6eaff;
+      font-size: .76rem;
+      margin-bottom: 24px;
+    }
+
+    .eyebrow-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan);
+    }
+
+    .hero h1 {
+      max-width: 680px;
+      font-size: clamp(3.1rem, 6vw, 5.4rem);
+      font-weight: 900;
+      line-height: 1.02;
+      letter-spacing: -4px;
+      margin-bottom: 23px;
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1.25rem, 2.3vw, 1.8rem);
+      color: #b9c9e2;
+      font-weight: 600;
+      margin-bottom: 16px;
+      letter-spacing: -.7px;
+    }
+
+    .hero-description {
+      max-width: 510px;
+      color: var(--muted);
+      font-size: .98rem;
+      margin-bottom: 30px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+    }
+
+    .hero-note {
+      margin-top: 25px;
+      color: #8296b5;
+      font-size: .77rem;
+    }
+
+    .hero-note i {
+      color: var(--cyan);
+      margin-right: 7px;
+    }
+
+    /* =========================
+       5. HERO VISUAL / ORB
+    ========================= */
+    .hero-visual {
+      position: relative;
+      min-height: 450px;
+      display: grid;
+      place-items: center;
+      perspective: 900px;
+      animation: fade-up 1s ease both;
+    }
+
+    .orb-glow {
+      position: absolute;
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: #1d73ff;
+      opacity: .17;
+      filter: blur(100px);
+    }
+
+    .orb {
+      width: min(330px, 73vw);
+      aspect-ratio: 1;
+      position: relative;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 32% 24%, rgba(121, 222, 255, .9), transparent 5%),
+        radial-gradient(circle at 30% 27%, #1e82ff 0%, #103d9a 18%, #07142f 45%, #030817 68%);
+      box-shadow:
+        inset -22px -18px 45px rgba(0, 0, 0, .85),
+        inset 10px 8px 30px rgba(75, 182, 255, .36),
+        0 0 38px rgba(27, 128, 255, .40),
+        0 0 110px rgba(42, 95, 255, .20);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .orb::before {
+      content: "";
+      position: absolute;
+      inset: -12px;
+      border-radius: 50%;
+      border: 1px solid rgba(64, 185, 255, .7);
+      box-shadow: 0 0 18px rgba(45, 157, 255, .2);
+    }
+
+    .orb::after {
+      content: "";
+      position: absolute;
+      inset: 15px -36px;
+      border: 2px solid rgba(51, 187, 255, .75);
+      border-radius: 50%;
+      transform: rotate(-30deg) rotateX(65deg);
+      box-shadow: 0 0 20px rgba(51, 187, 255, .30);
+    }
+
+    .orb-logo {
+      position: relative;
+      z-index: 2;
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      font-weight: 900;
+      letter-spacing: -4px;
+      text-shadow: 0 0 25px rgba(73, 198, 255, .65);
+    }
+
+    .orbit {
+      position: absolute;
+      border: 1px solid rgba(85, 130, 255, .38);
+      border-radius: 50%;
+      width: 420px;
+      height: 180px;
+      transform: rotate(-28deg);
+      animation: orbit-spin 18s linear infinite;
+    }
+
+    .orbit-two {
+      width: 440px;
+      height: 235px;
+      transform: rotate(38deg);
+      border-color: rgba(156, 95, 255, .32);
+      animation-direction: reverse;
+      animation-duration: 24s;
+    }
+
+    .orbit-dot {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      top: 22%;
+      left: 13%;
+      background: var(--cyan);
+      box-shadow: 0 0 22px 5px rgba(39, 216, 255, .55);
+    }
+
+    .floating-tag {
+      position: absolute;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: rgba(7, 16, 32, .82);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 15px 45px rgba(0, 0, 0, .25);
+      font-size: .8rem;
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .floating-tag i {
+      color: var(--cyan);
+      margin-right: 7px;
+    }
+
+    .tag-top {
+      top: 48px;
+      right: 0;
+    }
+
+    .tag-bottom {
+      bottom: 45px;
+      left: 0;
+      animation-delay: -2s;
+    }
+
+    /* =========================
+       6. STATS BAR
+    ========================= */
+    .stats {
+      position: relative;
+      z-index: 3;
+      padding: 22px;
+      border: 1px solid rgba(66, 148, 255, .27);
+      border-radius: var(--radius);
+      background: linear-gradient(110deg, rgba(11, 25, 46, .86), rgba(7, 14, 30, .75));
+      backdrop-filter: blur(16px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .17);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .stat {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      padding: 12px;
+      border-right: 1px solid rgba(120, 170, 255, .17);
+    }
+
+    .stat:last-child {
+      border-right: 0;
+    }
+
+    .stat-icon {
+      font-size: 1.8rem;
+      background: var(--gradient);
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    .stat-number {
+      font-size: 1.55rem;
+      line-height: 1.3;
+      font-weight: 800;
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: .76rem;
+    }
+
+    /* =========================
+       7. ABOUT SECTION
+    ========================= */
+    .about-grid {
+      display: grid;
+      grid-template-columns: .85fr 1.15fr;
+      gap: 65px;
+      align-items: start;
+    }
+
+    .about-copy p {
+      color: var(--muted);
+      margin-bottom: 26px;
+    }
+
+    .about-copy .btn {
+      min-height: 44px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .feature-card {
+      position: relative;
+      min-height: 185px;
+      padding: 25px;
+      overflow: hidden;
+      border: 1px solid rgba(115, 173, 255, .14);
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(12, 26, 46, .75), rgba(6, 13, 25, .70));
+      transition: transform .3s, border-color .3s, background .3s;
+    }
+
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      width: 140px;
+      height: 140px;
+      right: -70px;
+      top: -70px;
+      border-radius: 50%;
+      background: rgba(43, 139, 255, .10);
+      filter: blur(30px);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(39, 216, 255, .5);
+      background: linear-gradient(145deg, rgba(15, 37, 65, .9), rgba(7, 15, 30, .9));
+    }
+
+    .feature-icon {
+      display: grid;
+      place-items: center;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      margin-bottom: 16px;
+      color: var(--cyan);
+      font-size: 1.15rem;
+      background: linear-gradient(140deg, rgba(35, 191, 255, .19), rgba(119, 83, 255, .16));
+      border: 1px solid rgba(78, 163, 255, .16);
+    }
+
+    .feature-card h3 {
+      font-size: 1rem;
+      margin-bottom: 7px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: .84rem;
+      line-height: 1.7;
+    }
+
+    /* =========================
+       8. SERVICES
+    ========================= */
+    .services {
+      background: linear-gradient(180deg, transparent, rgba(9, 21, 41, .45), transparent);
+    }
+
+    .section-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 25px;
+      margin-bottom: 42px;
+    }
+
+    .section-top .section-description {
+      max-width: 440px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .service-card {
+      padding: 30px;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: rgba(9, 19, 36, .70);
+      transition: transform .3s, border-color .3s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-7px);
+      border-color: rgba(39, 216, 255, .48);
+    }
+
+    .service-card .feature-icon {
+      width: 55px;
+      height: 55px;
+      font-size: 1.35rem;
+    }
+
+    .service-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 12px;
+    }
+
+    .service-card p {
+      color: var(--muted);
+      font-size: .89rem;
+      margin-bottom: 23px;
+    }
+
+    .service-link {
+      color: var(--cyan);
+      font-size: .85rem;
+      font-weight: 700;
+    }
+
+    .service-link i {
+      margin-left: 6px;
+      transition: transform .2s;
+    }
+
+    .service-link:hover i {
+      transform: translateX(4px);
+    }
+
+    /* =========================
+       9. CTA SECTION
+    ========================= */
+    .cta-box {
+      position: relative;
+      padding: 75px 30px;
+      text-align: center;
+      border: 1px solid rgba(83, 155, 255, .3);
+      border-radius: 28px;
+      overflow: hidden;
+      background:
+        radial-gradient(ellipse at 50% 120%, rgba(64, 83, 255, .28), transparent 60%),
+        linear-gradient(120deg, #0a1b30, #091024 60%, #11102b);
+    }
+
+    .cta-box::before,
+    .cta-box::after {
+      content: "";
+      position: absolute;
+      width: 230px;
+      height: 230px;
+      border: 1px solid rgba(65, 174, 255, .14);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .cta-box::before {
+      top: -150px;
+      left: -80px;
+      box-shadow: 0 0 0 25px rgba(65, 174, 255, .025),
+                  0 0 0 50px rgba(65, 174, 255, .02);
+    }
+
+    .cta-box::after {
+      bottom: -170px;
+      right: -70px;
+      box-shadow: 0 0 0 25px rgba(134, 94, 255, .025),
+                  0 0 0 50px rgba(134, 94, 255, .02);
+    }
+
+    .cta-box h2 {
+      position: relative;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 1.2;
+      letter-spacing: -1.7px;
+      max-width: 750px;
+      margin: 0 auto 17px;
+    }
+
+    .cta-box p {
+      position: relative;
+      max-width: 570px;
+      color: var(--muted);
+      margin: 0 auto 28px;
+    }
+
+    .cta-box .btn {
+      position: relative;
+    }
+
+    /* =========================
+       10. FOOTER
+    ========================= */
+    .footer {
+      padding: 55px 0 24px;
+      border-top: 1px solid rgba(113, 160, 231, .12);
+      background: rgba(3, 7, 15, .45);
+    }
+
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+      gap: 35px;
+      padding-bottom: 40px;
+    }
+
+    .footer-brand p {
+      color: var(--muted);
+      font-size: .87rem;
+      max-width: 300px;
+      margin-top: 17px;
+    }
+
+    .footer-column h4 {
+      font-size: .9rem;
+      margin-bottom: 18px;
+    }
+
+    .footer-column ul {
+      list-style: none;
+    }
+
+    .footer-column li {
+      margin-bottom: 11px;
+    }
+
+    .footer-column a {
+      color: var(--muted);
+      font-size: .84rem;
+      transition: color .2s;
+    }
+
+    .footer-column a:hover {
+      color: var(--cyan);
+    }
+
+    .socials {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .socials a {
+      display: grid;
+      place-items: center;
+      width: 39px;
+      height: 39px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      color: #c5d8f2;
+      background: rgba(255,255,255,.025);
+      transition: color .2s, border-color .2s, transform .2s;
+    }
+
+    .socials a:hover {
+      color: var(--cyan);
+      border-color: var(--cyan);
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      padding-top: 23px;
+      border-top: 1px solid rgba(113, 160, 231, .12);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+      color: #8497b5;
+      font-size: .78rem;
+    }
+
+    .footer-bottom-links {
+      display: flex;
+      gap: 22px;
+    }
+
+    .footer-bottom-links a:hover {
+      color: var(--cyan);
+    }
+
+    /* =========================
+       11. ANIMATIONS
+    ========================= */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-13px); }
+    }
+
+    @keyframes orbit-spin {
+      from { rotate: 0deg; }
+      to { rotate: 360deg; }
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        translate: 0 20px;
+      }
+      to {
+        opacity: 1;
+        translate: 0 0;
+      }
+    }
+
+    /* =========================
+       12. TABLET RESPONSIVENESS
+    ========================= */
+    @media (max-width: 1000px) {
+      .nav-links {
+        gap: 17px;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr 0.8fr;
+        gap: 15px;
+      }
+
+      .hero h1 {
+        letter-spacing: -2.5px;
+      }
+
+      .hero-visual {
+        transform: scale(.85);
+      }
+
+      .about-grid {
+        gap: 35px;
+      }
+
+      .stat {
+        gap: 10px;
+        padding: 10px 5px;
+      }
+
+      .stat-icon {
+        font-size: 1.4rem;
+      }
+
+      .stat-number {
+        font-size: 1.3rem;
+      }
+    }
+
+    /* =========================
+       13. MOBILE RESPONSIVENESS
+    ========================= */
+    @media (max-width: 760px) {
+      .container {
+        width: min(100% - 36px, var(--max-width));
+      }
+
+      .section {
+        padding: 72px 0;
+      }
+
+      .nav-inner {
+        min-height: 68px;
+        gap: 12px;
+      }
+
+      .brand {
+        font-size: 1.65rem;
+      }
+
+      .brand-symbol {
+        width: 34px;
+        height: 34px;
+      }
+
+      .nav-actions {
+        gap: 5px;
+      }
+
+      .nav-actions > .btn {
+        min-height: 39px;
+        padding: 0 15px;
+        font-size: .78rem;
+      }
+
+      .menu-toggle {
+        display: grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        color: white;
+        background: rgba(255,255,255,.04);
+        cursor: pointer;
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 68px;
+        left: 0;
+        right: 0;
+        padding: 20px;
+        background: rgba(5, 9, 20, .97);
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        display: block;
+        padding: 13px 8px;
+        border-bottom: 1px solid rgba(255,255,255,.05);
+      }
+
+      .hero {
+        padding: 65px 0 45px;
+        min-height: unset;
+      }
+
+      .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .hero-content {
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: clamp(3rem, 12vw, 4.6rem);
+        letter-spacing: -2.5px;
+      }
+
+      .hero-description {
+        margin-inline: auto;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .hero-note {
+        margin-bottom: 10px;
+      }
+
+      .hero-visual {
+        min-height: 370px;
+        margin-top: 5px;
+        transform: scale(.9);
+      }
+
+      .orb {
+        width: 260px;
+      }
+
+      .orbit {
+        width: 330px;
+        height: 145px;
+      }
+
+      .orbit-two {
+        width: 345px;
+        height: 180px;
+      }
+
+      .floating-tag {
+        font-size: .72rem;
+        padding: 10px 12px;
+      }
+
+      .tag-top {
+        right: -5px;
+        top: 30px;
+      }
+
+      .tag-bottom {
+        left: -5px;
+        bottom: 28px;
+      }
+
+      .stats {
+        padding: 15px 8px;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .stat {
+        justify-content: flex-start;
+        padding: 16px 12px;
+        border-right: 0;
+      }
+
+      .stat:nth-child(odd) {
+        border-right: 1px solid rgba(120, 170, 255, .17);
+      }
+
+      .stat:nth-child(-n+2) {
+        border-bottom: 1px solid rgba(120, 170, 255, .17);
+      }
+
+      .stat-number {
+        font-size: 1.35rem;
+      }
+
+      .stat-label {
+        font-size: .7rem;
+      }
+
+      .about-grid {
+        grid-template-columns: 1fr;
+        gap: 38px;
+      }
+
+      .feature-card {
+        padding: 19px;
+        min-height: 190px;
+      }
+
+      .section-top {
+        display: block;
+      }
+
+      .section-top .section-description {
+        margin-top: 15px;
+      }
+
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .service-card {
+        padding: 25px;
+      }
+
+      .cta-box {
+        padding: 55px 20px;
+      }
+
+      .footer-top {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px 20px;
+      }
+
+      .footer-brand {
+        grid-column: 1 / -1;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .nav-actions > .btn {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 2.85rem;
+      }
+
+      .hero-buttons .btn {
+        padding-inline: 17px;
+      }
+
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-card {
+        min-height: 160px;
+      }
+
+      .hero-visual {
+        transform: scale(.78);
+        margin: -15px -20px;
+      }
+
+      .footer-top {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* Accessibility: respect reduced-motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+    
+.services-grid > a.service-card {
+  display: block;
+  color: inherit;
+  text-decoration: none;
+}
+
+.services-grid > a.service-card:focus-visible {
+  outline: 2px solid #27d8ff;
+  outline-offset: 5px;
+}
+
+.services-grid > a.service-card .service-link {
+  display: inline-block;
+  margin-top: 4px;
+}
+
+  </style>
+</head>
+
+<body>
+
+  <!-- =========================
+       NAVIGATION
+  ========================= -->
+  <header class="navbar">
+    <div class="container nav-inner">
+
+      <a href="#home" class="brand" aria-label="APEX homepage">
+        <span class="brand-symbol">APEX</span>
+        <span class="gradient-text">APEX</span>
+      </a>
+
+      <nav aria-label="Main navigation">
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#home">Home</a></li>
+          <a href="about.html">About</a>
+          <li><a href="#services">Products</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <a href="codesearch.html">Code Search</a>
+        </ul>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="#about" class="icon-link" aria-label="Explore APEX">
+          <i class="fa-solid fa-moon"></i>
+        </a>
+
+        <a href="#contact" class="btn btn-primary">
+          Get Started <i class="fa-solid fa-arrow-right"></i>
+        </a>
+
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          aria-label="Toggle navigation"
+          aria-controls="navLinks"
+          aria-expanded="false">
+          <i class="fa-solid fa-bars"></i>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main>
+
+    <!-- =========================
+         HERO
+    ========================= -->
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+
+        <div class="hero-content">
+
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            THE FUTURE STARTS HERE
+          </div>
+
+          <h1>
+            Welcome to <span class="gradient-text">APEX.</span>
+          </h1>
+
+          <div class="hero-subtitle">
+            Ideas. Technology. Impact.
+          </div>
+
+          <p class="hero-description">
+            We believe great ideas can change the world.
+            Explore a new digital experience built around creativity,
+            innovation, and limitless possibilities.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#services" class="btn btn-primary">
+              Explore Now <i class="fa-solid fa-arrow-right"></i>
+            </a>
+
+            <a href="#about" class="btn btn-outline">
+              <i class="fa-solid fa-play"></i> Discover APEX
+            </a>
+          </div>
+
+          <div class="hero-note">
+            <i class="fa-solid fa-circle-check"></i>
+            Built for ideas that move the world.
+          </div>
+
+        </div>
+
+        <div class="hero-visual" aria-label="Abstract futuristic XYZ APEX">
+
+          <div class="orb-glow"></div>
+          <div class="orbit">
+            <span class="orbit-dot"></span>
+          </div>
+          <div class="orbit orbit-two"></div>
+
+          <div class="orb">
+            <div class="orb-logo">APEX</div>
+          </div>
+
+          <div class="floating-tag tag-top">
+            <i class="fa-solid fa-bolt"></i>
+            Think beyond limits
+          </div>
+
+          <div class="floating-tag tag-bottom">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            Innovation starts here
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         STATISTICS
+    ========================= -->
+    <section class="container" aria-label="APEX highlights">
+      <div class="stats">
+        <div class="stats-grid">
+
+          <div class="stat">
+            <i class="fa-solid fa-users stat-icon"></i>
+            <div>
+              <div class="stat-number gradient-text">20</div>
+              <div class="stat-label">Community Members</div>
+            </div>
+          </div>
+
+          <div class="stat">
+            <i class="fa-solid fa-rocket stat-icon"></i>
+            <div>
+              <div class="stat-number gradient-text">10+</div>
+              <div class="stat-label">Ideas Explored</div>
+            </div>
+          </div>
+
+          <div class="stat">
+            <i class="fa-solid fa-earth-asia stat-icon"></i>
+            <div>
+              <div class="stat-number gradient-text">4+</div>
+              <div class="stat-label">Markets Reached</div>
+            </div>
+          </div>
+
+          <div class="stat">
+            <i class="fa-solid fa-star stat-icon"></i>
+            <div>
+              <div class="stat-number gradient-text">24/7</div>
+              <div class="stat-label">Ideas Never Sleep</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         ABOUT
+    ========================= -->
+    <section class="section" id="about">
+      <div class="container about-grid">
+
+        <div class="about-copy">
+          <div class="section-label">ABOUT APEX</div>
+
+          <h2 class="section-heading">
+            Turning Ideas Into
+            <span class="gradient-text">Real Possibilities.</span>
+          </h2>
+
+          <p>
+            APEX is a vision for a smarter, more creative digital future.
+            We bring together technology, design, and imagination to
+            create experiences that inspire people to think differently.
+          </p>
+
+          <p>
+            Our philosophy is simple: stay curious, keep building,
+            and never stop improving.
+          </p>
+
+          <a href="#services" class="btn btn-outline">
+            Learn More <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="feature-grid">
+
+          <article class="feature-card">
+            <div class="feature-icon">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+            <h3>Innovative Technology</h3>
+            <p>Explore fresh ideas and modern digital experiences designed for tomorrow.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h3>Security First</h3>
+            <p>Build with privacy, responsible technology, and user trust in mind.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">
+              <i class="fa-solid fa-users"></i>
+            </div>
+            <h3>People Focused</h3>
+            <p>Put people at the center of every experience, product, and idea.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">
+              <i class="fa-solid fa-leaf"></i>
+            </div>
+            <h3>Future Focused</h3>
+            <p>Think long term, create responsibly, and make progress meaningful.</p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         SERVICES / PRODUCTS
+    ========================= -->
+    <section class="section services" id="services">
+      <div class="container">
+
+        <div class="section-top">
+          <div>
+            <div class="section-label">WHAT WE DO</div>
+            <h2 class="section-heading">
+              Designed for the
+              <span class="gradient-text">Next Era.</span>
+            </h2>
+          </div>
+
+          <p class="section-description">
+            Discover the building blocks of a more connected,
+            creative, and intelligent digital world.
+          </p>
+        </div>
+
+        
+<div class="services-grid">
+
+  <a href="products.html?category=files" class="service-card">
+    <div class="feature-icon">
+      <i class="fa-solid fa-file-code"></i>
+    </div>
+    <h3>Files & Downloads</h3>
+    <p>Discover code files, website templates, projects and digital resources.</p>
+    <span class="service-link">
+      Explore Files <i class="fa-solid fa-arrow-right"></i>
+    </span>
+  </a>
+
+  <a href="products.html?category=games" class="service-card">
+    <div class="feature-icon">
+      <i class="fa-solid fa-gamepad"></i>
+    </div>
+    <h3>Games</h3>
+    <p>Explore browser games, arcade experiences and interactive creations.</p>
+    <span class="service-link">
+      Explore Games <i class="fa-solid fa-arrow-right"></i>
+    </span>
+  </a>
+
+  <a href="products.html?category=tools" class="service-card">
+    <div class="feature-icon">
+      <i class="fa-solid fa-screwdriver-wrench"></i>
+    </div>
+    <h3>Tools & Apps</h3>
+    <p>Discover calculators, productivity tools, utilities and useful apps.</p>
+    <span class="service-link">
+      Explore Tools <i class="fa-solid fa-arrow-right"></i>
+    </span>
+  </a>
+
+</div>
+
+            <h3>Digital Experiences</h3>
+            <p>
+              Modern interfaces, beautiful websites, and thoughtful
+              digital products that put usability first.
+            </p>
+            <a href="#contact" class="service-link">
+              Discover More <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </article>
+
+          <article class="service-card">
+            <div class="feature-icon">
+              <i class="fa-solid fa-brain"></i>
+            </div>
+            <h3>Intelligent Ideas</h3>
+            <p>
+              Explore the possibilities of artificial intelligence,
+              automation, and emerging technologies.
+            </p>
+            <a href="#contact" class="service-link">
+              Discover More <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </article>
+
+          <article class="service-card">
+            <div class="feature-icon">
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <h3>Creative Solutions</h3>
+            <p>
+              Turn ambitious concepts into clear plans, useful tools,
+              and experiences that people love.
+            </p>
+            <a href="#contact" class="service-link">
+              Discover More <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================
+         CALL TO ACTION
+    ========================= -->
+    <section class="section" id="contact">
+      <div class="container">
+
+        <div class="cta-box">
+          <div class="section-label">YOUR NEXT CHAPTER</div>
+
+          <h2>
+            The Future Doesn't
+            <span class="gradient-text">Build Itself.</span>
+          </h2>
+
+          <p>
+            Every extraordinary journey starts with an idea.
+            Take the first step and discover what you can create.
+          </p>
+
+          <a href="mailto:hello@example.com" class="btn btn-primary">
+            Let's Connect <i class="fa-solid fa-arrow-right"></i>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================
+       FOOTER
+  ========================= -->
+  <footer class="footer">
+    <div class="container">
+
+      <div class="footer-top">
+
+        <div class="footer-brand">
+          <a href="#home" class="brand">
+            <span class="brand-symbol">APEX</span>
+            <span class="gradient-text">APEX</span>
+          </a>
+
+          <p>
+            Build boldly. Think differently.
+            Create a future full of possibilities.
+          </p>
+
+          
+        </div>
+
+        <div class="footer-column">
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Us</a></li>
+            <li><a href="#services">Products</a></li>
+            <li><a href="#services">Services</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Discover</h4>
+          <ul>
+            <li><a href="#services">Technology</a></li>
+            <li><a href="#services">Innovation</a></li>
+            <li><a href="#services">Solutions</a></li>
+            <li><a href="#contact">Get Started</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h4>Information</h4>
+          <ul>
+            <li><a href="#contact">Contact</a></li>
+            <li><a href="#contact">Privacy Policy</a></li>
+            <li><a href="#contact">Terms of Use</a></li>
+            <li><a href="#home">Back to Top ↑</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="footer-bottom">
+        <p>© <span id="year">2026</span> APEX. All rights reserved.</p>
+
+        <div class="footer-bottom-links">
+          <a href="#contact">Privacy</a>
+          <a href="#contact">Terms</a>
+          <a href="#home">Build. Innovate. Grow.</a>
+        </div>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- Small interactions for the responsive menu and copyright year -->
+  <script>
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+    const menuIcon = menuToggle.querySelector("i");
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuIcon.className = isOpen
+        ? "fa-solid fa-xmark"
+        : "fa-solid fa-bars";
+    });
+
+    navLinks.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuIcon.className = "fa-solid fa-bars";
+      });
+    });
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+  </script>
+
+</body>
+</html>

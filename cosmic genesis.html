@@ -1,0 +1,664 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Cosmic Genesis | Universe Explorer</title>
+<style>
+:root{--cyan:#8ce8ff;--glass:rgba(8,16,35,.78)}
+*{box-sizing:border-box}
+body{margin:0;overflow:hidden;background:#02030b;color:#fff;font-family:Arial,Helvetica,sans-serif}
+canvas{display:block;touch-action:none;outline:none}
+#ui{position:fixed;inset:0;pointer-events:none;display:flex;flex-direction:column;justify-content:space-between;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.32))}
+header{text-align:center;padding:24px 12px 0;transition:opacity .5s}
+.logo{font-size:clamp(18px,4vw,29px);font-weight:200;letter-spacing:clamp(4px,1vw,9px);text-transform:uppercase;text-shadow:0 0 25px #58cfff}
+#subtitle{color:#a8c7e8;font-size:11px;letter-spacing:2px;margin-top:9px}
+#progress{width:150px;height:2px;background:#ffffff20;margin:14px auto}
+#progress span{display:block;height:100%;width:0;background:var(--cyan);box-shadow:0 0 12px var(--cyan);transition:width .5s}
+#panel{position:absolute;left:14px;top:16px;width:min(260px,67vw);padding:16px;background:var(--glass);border:1px solid #8ce8ff38;border-radius:14px;backdrop-filter:blur(14px);display:none;pointer-events:auto;box-shadow:0 10px 40px #0008}
+#panel h2{font-size:20px;font-weight:400;color:var(--cyan);margin:0 0 8px}
+#panel p{font-size:12px;line-height:1.65;color:#d4deef;margin:0}
+#panel .close{position:absolute;right:10px;top:8px;background:none;border:0;padding:5px;color:#fff;font-size:20px}
+#controls{pointer-events:auto;display:flex;flex-direction:column;align-items:center;gap:10px;padding:0 10px 24px}
+#planetNav{display:none;gap:6px;flex-wrap:wrap;justify-content:center;max-width:96vw}
+button{font:inherit;color:white;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.main{border:1px solid #a2eaff80;background:linear-gradient(135deg,#245b8490,#10172bbf);border-radius:30px;padding:14px 24px;font-size:11px;letter-spacing:2px;text-transform:uppercase;box-shadow:0 0 26px #3abfff18;backdrop-filter:blur(12px)}
+.main:active,.small:active,.planet:active{transform:scale(.96)}
+.planet{border:1px solid #ffffff2c;background:#0b1125c9;border-radius:20px;padding:7px 10px;font-size:10px}
+.planet.active{border-color:var(--cyan);color:var(--cyan);box-shadow:0 0 12px #47cfff33}
+#utility{position:absolute;right:14px;top:18px;display:flex;flex-direction:column;gap:8px;pointer-events:auto}
+.small{width:38px;height:38px;border-radius:50%;border:1px solid #ffffff35;background:#071020b9;font-size:19px;backdrop-filter:blur(10px)}
+#hint{color:#a4b6d0;font-size:10px;letter-spacing:1px;text-align:center}
+#stats{position:absolute;left:12px;bottom:8px;font:9px monospace;color:#75849b;letter-spacing:1px}
+#sound{position:absolute;right:14px;bottom:12px;font-size:10px;letter-spacing:1px;color:#9fb4d0}
+@media(max-height:500px){header{padding-top:8px}#controls{padding-bottom:8px;gap:5px}.logo{font-size:17px}#progress{margin:7px auto}#panel{top:8px;padding:10px}#planetNav{max-height:75px;overflow:auto}}
+</style>
+</head>
+<body>
+<div id="ui">
+<header>
+  <div class="logo" id="title">COSMIC GENESIS</div>
+  <div id="subtitle">BEFORE TIME · THE SINGULARITY</div>
+  <div id="progress"><span id="bar"></span></div>
+</header>
+
+<div id="panel">
+<button class="close" id="closePanel" aria-label="Close planet information">×</button>
+<h2 id="planetName">Earth</h2>
+<p id="planetInfo"></p>
+</div>
+
+<div id="utility">
+<button class="small" id="zoomIn" aria-label="Zoom in">+</button>
+<button class="small" id="zoomOut" aria-label="Zoom out">−</button>
+<button class="small" id="home" aria-label="Reset camera">⌂</button>
+</div>
+
+<div id="controls">
+<div id="planetNav"></div>
+<button class="main" id="next">IGNITE BIG BANG ↗</button>
+<div id="hint">DRAG TO EXPLORE · PINCH TO ZOOM</div>
+</div>
+<div id="stats">COSMIC ENGINE · INITIALIZING</div>
+<div id="sound">3D UNIVERSE EXPLORER</div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(() => {
+'use strict';
+
+if (!window.THREE) {
+ document.getElementById('subtitle').textContent =
+ 'THREE.JS COULD NOT LOAD · CHECK YOUR INTERNET CONNECTION';
+ return;
+}
+
+const $ = id => document.getElementById(id);
+const clamp = (v,a,b) => Math.max(a,Math.min(b,v));
+const mix = (a,b,t) => a+(b-a)*t;
+const smooth = t => t*t*(3-2*t);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x02030b);
+scene.fog = new THREE.FogExp2(0x02030b,0.0014);
+
+const camera = new THREE.PerspectiveCamera(
+ 60,innerWidth/innerHeight,0.1,2500
+);
+const renderer = new THREE.WebGLRenderer({
+ antialias:true,alpha:false,powerPreference:'high-performance'
+});
+renderer.setSize(innerWidth,innerHeight);
+renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.65));
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.25;
+document.body.prepend(renderer.domElement);
+
+const lowPower = matchMedia('(max-width:600px)').matches;
+const COUNT = lowPower ? 6500 : 13000;
+const DUST = lowPower ? 1500 : 3500;
+
+scene.add(new THREE.AmbientLight(0x8c9ac9,0.35));
+const fillLight = new THREE.PointLight(0x6c9dff,0.8,180);
+fillLight.position.set(-35,20,25);
+scene.add(fillLight);
+
+// Procedural textures: generated locally, no texture downloads needed.
+function makeTexture(type,base,detail,seed=1){
+ const c=document.createElement('canvas');
+ c.width=512;c.height=256;
+ const x=c.getContext('2d');
+ x.fillStyle=base;x.fillRect(0,0,512,256);
+ let n=seed;
+ const rand=()=>{n=(n*1664525+1013904223)>>>0;return n/4294967296};
+
+ if(type==='bands'){
+   for(let y=0;y<256;y++){
+     const wave=Math.sin(y*.08+seed)*12+
+       Math.sin(y*.21+seed*2)*5;
+     x.fillStyle=detail;
+     x.globalAlpha=.06+rand()*.22;
+     x.fillRect(0,y+wave,512,1+rand()*4);
+   }
+   for(let i=0;i<80;i++){
+     x.globalAlpha=.04+rand()*.13;
+     x.fillStyle=rand()>.5?'#ffffff':'#301b18';
+     x.fillRect(0,rand()*256,512,1+rand()*3);
+   }
+   if(seed===5){
+     x.globalAlpha=.7;x.fillStyle='#a64e32';
+     x.beginPath();x.ellipse(350,120,44,15,-.15,0,Math.PI*2);x.fill();
+     x.globalAlpha=.4;x.strokeStyle='#e5a66d';x.lineWidth=5;
+     x.stroke();
+   }
+ } else if(type==='cloud'){
+   for(let i=0;i<500;i++){
+     x.globalAlpha=.04+rand()*.18;
+     x.fillStyle=rand()>.5?'#ffffff':detail;
+     x.beginPath();
+     x.ellipse(rand()*512,rand()*256,5+rand()*35,2+rand()*10,rand(),0,Math.PI*2);
+     x.fill();
+   }
+ } else {
+   for(let i=0;i<1500;i++){
+     const px=rand()*512,py=rand()*256;
+     x.globalAlpha=.08+rand()*.3;
+     x.fillStyle=rand()>.45?detail:'#ffffff';
+     const r=rand()*3+.3;
+     x.beginPath();x.arc(px,py,r,r,0,Math.PI*2);x.fill();
+   }
+   for(let i=0;i<50;i++){
+     x.globalAlpha=.1+rand()*.2;
+     x.strokeStyle=detail;x.lineWidth=rand()*3+1;
+     x.beginPath();
+     x.moveTo(rand()*512,rand()*256);
+     x.lineTo(rand()*512,rand()*256);x.stroke();
+   }
+ }
+ x.globalAlpha=1;
+ const tex=new THREE.CanvasTexture(c);
+ tex.encoding=THREE.sRGBEncoding;
+ tex.anisotropy=Math.min(renderer.capabilities.getMaxAnisotropy(),4);
+ return tex;
+}
+
+function glowTexture(){
+ const c=document.createElement('canvas');
+ c.width=c.height=256;
+ const x=c.getContext('2d');
+ const g=x.createRadialGradient(128,128,2,128,128,128);
+ g.addColorStop(0,'rgba(255,255,255,1)');
+ g.addColorStop(.12,'rgba(255,245,180,.95)');
+ g.addColorStop(.28,'rgba(255,140,35,.5)');
+ g.addColorStop(.55,'rgba(255,65,20,.14)');
+ g.addColorStop(1,'rgba(255,30,0,0)');
+ x.fillStyle=g;x.fillRect(0,0,256,256);
+ return new THREE.CanvasTexture(c);
+}
+const glowTex=glowTexture();
+
+// Background stars
+{
+ const pos=new Float32Array(9000*3);
+ const col=new Float32Array(9000*3);
+ for(let i=0;i<9000;i++){
+   const r=350+Math.random()*850;
+   const u=Math.random()*2-1;
+   const a=Math.random()*Math.PI*2;
+   pos[i*3]=r*Math.sqrt(1-u*u)*Math.cos(a);
+   pos[i*3+1]=r*u;
+   pos[i*3+2]=r*Math.sqrt(1-u*u)*Math.sin(a);
+   const v=.55+Math.random()*.45;
+   col.set([v,v,Math.min(1,v+.12)],i*3);
+ }
+ const g=new THREE.BufferGeometry();
+ g.setAttribute('position',new THREE.BufferAttribute(pos,3));
+ g.setAttribute('color',new THREE.BufferAttribute(col,3));
+ const stars=new THREE.Points(g,new THREE.PointsMaterial({
+   size:1.2,vertexColors:true,transparent:true,opacity:.9,
+   sizeAttenuation:true,depthWrite:false
+ }));
+ scene.add(stars);
+}
+
+// Cosmic particle system
+const cosmicGeo=new THREE.BufferGeometry();
+const cPos=new Float32Array(COUNT*3);
+const cVel=new Float32Array(COUNT*3);
+const cDest=new Float32Array(COUNT*3);
+const cColor=new Float32Array(COUNT*3);
+const original=new Float32Array(COUNT*3);
+for(let i=0;i<COUNT;i++){
+ const k=i*3;
+ for(let j=0;j<3;j++)cPos[k+j]=(Math.random()-.5)*.25;
+ const u=Math.random()*2-1,a=Math.random()*Math.PI*2;
+ const speed=3+Math.random()*17;
+ cVel[k]=Math.sqrt(1-u*u)*Math.cos(a)*speed;
+ cVel[k+1]=u*speed;
+ cVel[k+2]=Math.sqrt(1-u*u)*Math.sin(a)*speed;
+ const arm=i%4,r=8+Math.random()*125;
+ const angle=arm*Math.PI/2+r*.095+(Math.random()-.5)*.65;
+ cDest[k]=Math.cos(angle)*r+(Math.random()-.5)*5;
+ cDest[k+1]=(Math.random()-.5)*(r*.09);
+ cDest[k+2]=Math.sin(angle)*r+(Math.random()-.5)*5;
+ const blue=Math.random();
+ cColor[k]=.65+blue*.35;
+ cColor[k+1]=.68+blue*.24;
+ cColor[k+2]=.8+blue*.2;
+ original[k]=cDest[k];original[k+1]=cDest[k+1];original[k+2]=cDest[k+2];
+}
+cosmicGeo.setAttribute('position',new THREE.BufferAttribute(cPos,3));
+cosmicGeo.setAttribute('color',new THREE.BufferAttribute(cColor,3));
+const cosmicMat=new THREE.PointsMaterial({
+ size:lowPower?1.05:1.25,map:glowTex,vertexColors:true,
+ transparent:true,opacity:1,depthWrite:false,
+ blending:THREE.AdditiveBlending
+});
+const cosmic=new THREE.Points(cosmicGeo,cosmicMat);
+scene.add(cosmic);
+
+// Energy burst ring
+const burst=new THREE.Mesh(
+ new THREE.RingGeometry(.8,1.05,128),
+ new THREE.MeshBasicMaterial({
+   color:0x8ce8ff,side:THREE.DoubleSide,
+   transparent:true,opacity:0,blending:THREE.AdditiveBlending,
+   depthWrite:false
+ })
+);
+scene.add(burst);
+
+// Solar system
+const solar=new THREE.Group();
+solar.visible=false;
+scene.add(solar);
+
+const sun=new THREE.Mesh(
+ new THREE.SphereGeometry(4.5,48,48),
+ new THREE.MeshBasicMaterial({color:0xffa52b})
+);
+solar.add(sun);
+
+const sunSurface=new THREE.Mesh(
+ new THREE.SphereGeometry(4.53,48,48),
+ new THREE.MeshBasicMaterial({
+   map:makeTexture('bands','#ff7b12','#fff0a0',7),
+   color:0xffbd62
+ })
+);
+sun.add(sunSurface);
+
+const corona=new THREE.Sprite(new THREE.SpriteMaterial({
+ map:glowTex,color:0xff8a16,transparent:true,opacity:.95,
+ blending:THREE.AdditiveBlending,depthWrite:false
+}));
+corona.scale.set(28,28,1);
+sun.add(corona);
+
+const corona2=new THREE.Sprite(new THREE.SpriteMaterial({
+ map:glowTex,color:0xffbd50,transparent:true,opacity:.45,
+ blending:THREE.AdditiveBlending,depthWrite:false
+}));
+corona2.scale.set(17,17,1);
+sun.add(corona2);
+
+const sunLight=new THREE.PointLight(0xffd19a,3.8,230);
+solar.add(sunLight);
+
+// Dust disk
+const dustGeo=new THREE.BufferGeometry();
+const dustPos=new Float32Array(DUST*3);
+const dustData=[];
+const dustColors=new Float32Array(DUST*3);
+for(let i=0;i<DUST;i++){
+ const r=7+Math.random()*58,a=Math.random()*Math.PI*2;
+ dustData.push({r,a,s:.35/Math.sqrt(r),alive:true});
+ dustPos[i*3]=Math.cos(a)*r;
+ dustPos[i*3+1]=(Math.random()-.5)*.5;
+ dustPos[i*3+2]=Math.sin(a)*r;
+ dustColors.set([.9,.55,.27],i*3);
+}
+dustGeo.setAttribute('position',new THREE.BufferAttribute(dustPos,3));
+dustGeo.setAttribute('color',new THREE.BufferAttribute(dustColors,3));
+const dust=new THREE.Points(dustGeo,new THREE.PointsMaterial({
+ size:.65,vertexColors:true,transparent:true,opacity:.8,
+ blending:THREE.AdditiveBlending,depthWrite:false
+}));
+solar.add(dust);
+
+// Planet definitions
+const specs=[
+ {name:'Mercury',dist:8,size:.42,color:0x9a9892,base:'#716f6a',detail:'#b5b0a3',type:'rock',speed:.8,info:'The smallest planet and the closest to the Sun. Its cratered surface experiences extreme temperature changes.'},
+ {name:'Venus',dist:12,size:.68,color:0xe5c18a,base:'#b27b38',detail:'#f4d6a1',type:'cloud',speed:.58,info:'A rocky planet wrapped in thick clouds. Its powerful greenhouse effect makes it the hottest planet.'},
+ {name:'Earth',dist:17,size:.8,color:0xffffff,base:'#1452a2',detail:'#4caa63',type:'earth',speed:.44,info:'Our home planet, with liquid-water oceans, a protective atmosphere and the only confirmed life in the universe.',moon:true},
+ {name:'Mars',dist:22,size:.54,color:0xffffff,base:'#a8472c',detail:'#e2a078',type:'rock',speed:.34,info:'The Red Planet has giant volcanoes, ancient river valleys, dusty plains and two small moons.'},
+ {name:'Jupiter',dist:32,size:2.2,color:0xffffff,base:'#b98b5c',detail:'#e5c9a2',type:'bands',speed:.2,info:'The largest planet. Jupiter is a gas giant with powerful storms, including the Great Red Spot.',seed:5},
+ {name:'Saturn',dist:42,size:1.8,color:0xffffff,base:'#b89a63',detail:'#e7d4a1',type:'bands',speed:.15,ring:true},
+ {name:'Uranus',dist:50,size:1.2,color:0xffffff,base:'#6bbbc5',detail:'#c2f0ee',type:'cloud',speed:.1,tilt:1.7},
+ {name:'Neptune',dist:58,size:1.12,color:0xffffff,base:'#1743a0',detail:'#4f83f2',type:'cloud',speed:.08}
+];
+specs[5].info='An ice giant famous for its spectacular icy rings. Its atmosphere contains hydrogen, helium and methane.';
+
+const planets=[];
+const sphereGeo=new THREE.SphereGeometry(1,40,32);
+
+function ringTexture(){
+ const c=document.createElement('canvas');c.width=512;c.height=8;
+ const x=c.getContext('2d');
+ for(let i=0;i<512;i++){
+   const v=Math.sin(i*.13)*.5+.5;
+   x.fillStyle=`rgba(${155+v*80},${130+v*70},${95+v*65},${.2+v*.65})`;
+   x.fillRect(i,0,1,8);
+ }
+ return new THREE.CanvasTexture(c);
+}
+const saturnTex=ringTexture();
+
+class Planet{
+ constructor(s){
+  this.s=s;this.angle=Math.random()*Math.PI*2;this.size=.001;
+  const tex=makeTexture(s.type==='bands'?'bands':s.type==='cloud'?'cloud':'rock',s.base,s.detail,s.seed||s.dist);
+  const mat=new THREE.MeshStandardMaterial({
+   color:s.color,map:tex,roughness:.87,metalness:.02
+  });
+  this.mesh=new THREE.Mesh(sphereGeo,mat);
+  this.mesh.rotation.z=s.tilt||0;
+  this.mesh.scale.setScalar(.001);
+  this.mesh.userData.planet=this;
+  solar.add(this.mesh);
+
+  if(s.ring){
+   const rg=new THREE.RingGeometry(1.35,2.45,128);
+   const uv=rg.attributes.uv;
+   for(let i=0;i<uv.count;i++){
+    const p=rg.attributes.position;
+    uv.setXY(i,(Math.sqrt(p.getX(i)**2+p.getY(i)**2)-1.35)/1.1,.5);
+   }
+   const rm=new THREE.MeshStandardMaterial({
+    map:saturnTex,side:THREE.DoubleSide,transparent:true,
+    opacity:.92,roughness:1,metalness:0,depthWrite:false
+   });
+   this.ring=new THREE.Mesh(rg,rm);
+   this.ring.rotation.x=Math.PI/2.3;
+   this.mesh.add(this.ring);
+  }
+
+  if(s.moon){
+   this.moon=new THREE.Mesh(new THREE.SphereGeometry(.21,20,16),
+    new THREE.MeshStandardMaterial({
+     color:0xbcbdbd,map:makeTexture('rock','#888888','#dedede',91)
+    }));
+   this.mesh.add(this.moon);
+  }
+
+  const pts=[];
+  for(let i=0;i<=180;i++){
+   const a=i/180*Math.PI*2;
+   pts.push(Math.cos(a)*s.dist,0,Math.sin(a)*s.dist);
+  }
+  const og=new THREE.BufferGeometry();
+  og.setAttribute('position',new THREE.Float32BufferAttribute(pts,3));
+  this.orbit=new THREE.Line(og,new THREE.LineBasicMaterial({
+   color:0x8ebcff,transparent:true,opacity:.13
+  }));
+  solar.add(this.orbit);
+ }
+
+ update(dt,t){
+  this.angle+=this.s.speed*dt*.4;
+  this.mesh.position.set(
+   Math.cos(this.angle)*this.s.dist,0,
+   Math.sin(this.angle)*this.s.dist
+  );
+  this.mesh.rotation.y+=dt*.24;
+  if(this.moon){
+   const a=t*1.2;
+   this.moon.position.set(Math.cos(a)*1.65,.1,Math.sin(a)*1.65);
+  }
+  const target=currentState===3?this.s.size:currentState===4?this.s.size:.001;
+  this.size=mix(this.size,target,1-Math.exp(-dt*1.3));
+  this.mesh.scale.setScalar(this.size);
+ }
+}
+specs.forEach(s=>planets.push(new Planet(s)));
+
+// Navigation buttons
+specs.forEach((s,i)=>{
+ const b=document.createElement('button');
+ b.className='planet';b.textContent=s.name;
+ b.onclick=()=>focusPlanet(planets[i]);
+ $('planetNav').appendChild(b);
+});
+
+let currentState=0;
+const stages=[
+ ['COSMIC GENESIS','BEFORE TIME · THE SINGULARITY','IGNITE BIG BANG ↗'],
+ ['THE BIG BANG','SPACE EXPANDS · ENERGY IGNITES','FORM GALAXY ↗'],
+ ['GALAXY FORMATION','STARDUST · GRAVITY · SPIRAL ARMS','FORM SOLAR SYSTEM ↗'],
+ ['PLANETARY ACCRETION','DUST COLLIDES · WORLDS TAKE SHAPE','EXPLORE SOLAR SYSTEM ↗'],
+ ['SOLAR SYSTEM','EIGHT PLANETS · ONE STAR · INFINITE WONDER','RESTART COSMOS ↻']
+];
+function updateUI(){
+ $('title').textContent=stages[currentState][0];
+ $('subtitle').textContent=stages[currentState][1];
+ $('next').textContent=stages[currentState][2];
+ $('bar').style.width=(currentState/4*100)+'%';
+ $('planetNav').style.display=currentState===4?'flex':'none';
+ $('stats').textContent=`COSMIC ENGINE · ${COUNT.toLocaleString()} PARTICLES · STAGE ${currentState+1}/5`;
+}
+
+let selected=null;
+const panel=$('panel');
+function focusPlanet(p){
+ if(currentState!==4)return;
+ selected=p;
+ $('planetName').textContent=p.s.name;
+ $('planetInfo').textContent=p.s.info;
+ panel.style.display='block';
+ document.querySelectorAll('.planet').forEach((b,i)=>b.classList.toggle('active',planets[i]===p));
+}
+$('closePanel').onclick=()=>{
+ selected=null;panel.style.display='none';
+ document.querySelectorAll('.planet').forEach(b=>b.classList.remove('active'));
+};
+
+function resetCosmos(){
+ currentState=0;selected=null;panel.style.display='none';
+ cosmic.visible=true;solar.visible=false;cosmic.scale.setScalar(1);
+ cosmicMat.opacity=1;
+ for(let i=0;i<COUNT;i++){
+  const k=i*3;
+  cPos[k]=(Math.random()-.5)*.2;
+  cPos[k+1]=(Math.random()-.5)*.2;
+  cPos[k+2]=(Math.random()-.5)*.2;
+ }
+ cosmicGeo.attributes.position.needsUpdate=true;
+ dust.visible=true;
+ dustDataReset();
+ planets.forEach(p=>{p.size=.001;p.mesh.scale.setScalar(.001)});
+ camYaw=0;camPitch=.27;camDist=115;
+ targetYaw=camYaw;targetPitch=camPitch;targetDist=camDist;
+ focusTarget.set(0,0,0);targetFocus.set(0,0,0);
+ updateUI();
+}
+function dustDataReset(){
+ for(let i=0;i<DUST;i++){
+  dustData[i].alive=true;
+  dustPos[i*3]=Math.cos(dustData[i].a)*dustData[i].r;
+  dustPos[i*3+1]=0;
+  dustPos[i*3+2]=Math.sin(dustData[i].a)*dustData[i].r;
+ }
+ dustGeo.attributes.position.needsUpdate=true;
+}
+$('next').onclick=()=>{
+ if(currentState===4){resetCosmos();return;}
+ currentState++;
+ if(currentState===2){
+  // Start spiral galaxy from the outward particle cloud.
+  cosmic.visible=true;
+ }
+ if(currentState===3){
+  solar.visible=true;
+  dust.visible=true;
+  cosmic.visible=false;
+ }
+ if(currentState===4){
+  dust.visible=false;
+  selected=null;
+ }
+ updateUI();
+};
+updateUI();
+
+// Camera orbit and zoom
+let camYaw=0,camPitch=.27,camDist=115;
+let targetYaw=0,targetPitch=.27,targetDist=115;
+const focusTarget=new THREE.Vector3();
+const targetFocus=new THREE.Vector3();
+
+function zoom(factor){targetDist=clamp(targetDist*factor,12,320);}
+$('zoomIn').onclick=()=>zoom(.78);
+$('zoomOut').onclick=()=>zoom(1.28);
+$('home').onclick=()=>{
+ selected=null;panel.style.display='none';
+ targetYaw=0;targetPitch=.27;targetDist=115;
+ targetFocus.set(0,0,0);
+};
+
+let pointers=new Map(),lastX=0,lastY=0,lastPinch=0;
+renderer.domElement.addEventListener('pointerdown',e=>{
+ renderer.domElement.setPointerCapture(e.pointerId);
+ pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+ lastX=e.clientX;lastY=e.clientY;
+ if(pointers.size===2){
+  const a=[...pointers.values()];
+  lastPinch=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);
+ }
+});
+renderer.domElement.addEventListener('pointermove',e=>{
+ if(!pointers.has(e.pointerId))return;
+ const prev=pointers.get(e.pointerId);
+ pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
+ if(pointers.size===1){
+  const dx=e.clientX-prev.x,dy=e.clientY-prev.y;
+  targetYaw-=dx*.006;
+  targetPitch=clamp(targetPitch+dy*.004,-1.35,1.35);
+ }else if(pointers.size>=2){
+  const a=[...pointers.values()];
+  const d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);
+  if(lastPinch>0)zoom(lastPinch/d);
+  lastPinch=d;
+ }
+});
+function removePointer(e){
+ pointers.delete(e.pointerId);
+ if(pointers.size<2)lastPinch=0;
+}
+renderer.domElement.addEventListener('pointerup',removePointer);
+renderer.domElement.addEventListener('pointercancel',removePointer);
+renderer.domElement.addEventListener('wheel',e=>{
+ e.preventDefault();zoom(e.deltaY>0?1.1:.9);
+},{passive:false});
+
+// Raycast planets on tap/click
+const raycaster=new THREE.Raycaster();
+raycaster.params.Points.threshold=1;
+const pointer=new THREE.Vector2();
+let down={x:0,y:0,time:0};
+renderer.domElement.addEventListener('pointerdown',e=>{
+ down={x:e.clientX,y:e.clientY,time:performance.now()};
+});
+renderer.domElement.addEventListener('pointerup',e=>{
+ if(currentState!==4||pointers.size!==0)return;
+ if(Math.hypot(e.clientX-down.x,e.clientY-down.y)>9)return;
+ if(performance.now()-down.time>650)return;
+ pointer.x=e.clientX/innerWidth*2-1;
+ pointer.y=-(e.clientY/innerHeight)*2+1;
+ raycaster.setFromCamera(pointer,camera);
+ const hits=raycaster.intersectObjects(planets.map(p=>p.mesh),false);
+ if(hits.length)focusPlanet(hits[0].object.userData.planet);
+});
+
+// Animation
+const clock=new THREE.Clock();
+let bangTime=0;
+function animate(){
+ requestAnimationFrame(animate);
+ const dt=Math.min(clock.getDelta(),.04);
+ const t=clock.elapsedTime;
+
+ if(currentState===1){
+  bangTime+=dt;
+  const a=cosmicGeo.attributes.position;
+  for(let i=0;i<COUNT;i++){
+   const k=i*3;
+   for(let j=0;j<3;j++)cPos[k+j]+=cVel[k+j]*dt*1.15;
+  }
+  a.needsUpdate=true;
+  cosmic.scale.setScalar(1+Math.min(bangTime*.13,4));
+  cosmicMat.opacity=Math.max(.3,1-bangTime*.012);
+  burst.visible=true;
+  burst.position.set(0,0,0);
+  burst.lookAt(camera.position);
+  burst.scale.setScalar(1+bangTime*7);
+  burst.material.opacity=Math.max(0,.8-bangTime*.17);
+ }else if(currentState===2){
+  const a=cosmicGeo.attributes.position;
+  const factor=1-Math.exp(-dt*1.15);
+  for(let i=0;i<COUNT;i++){
+   const k=i*3;
+   cPos[k]=mix(cPos[k],cDest[k],factor);
+   cPos[k+1]=mix(cPos[k+1],cDest[k+1],factor);
+   cPos[k+2]=mix(cPos[k+2],cDest[k+2],factor);
+  }
+  a.needsUpdate=true;
+  cosmic.scale.setScalar(1);
+  cosmic.rotation.y+=dt*.045;
+  cosmicMat.opacity=1;
+ }else if(currentState===0){
+  cosmic.scale.setScalar(1+Math.sin(t*2.4)*.08);
+  cosmicMat.opacity=1;
+ }else if(currentState>=3){
+  planets.forEach(p=>p.update(dt,t));
+  if(currentState===3){
+   for(let i=0;i<DUST;i++){
+    const d=dustData[i];
+    if(!d.alive)continue;
+    d.a+=d.s*dt;
+    d.r-=dt*.12;
+    if(d.r<7)d.r=7+Math.random()*4;
+    dustPos[i*3]=Math.cos(d.a)*d.r;
+    dustPos[i*3+1]=Math.sin(t*2+i)*.12;
+    dustPos[i*3+2]=Math.sin(d.a)*d.r;
+   }
+   dustGeo.attributes.position.needsUpdate=true;
+  }
+ }
+ burst.visible=currentState===1;
+ if(currentState!==1)cosmicMat.opacity=1;
+
+ sunSurface.rotation.y+=dt*.035;
+ corona.material.rotation+=dt*.06;
+ corona2.material.rotation-=dt*.04;
+ corona.material.opacity=.82+Math.sin(t*2.1)*.12;
+ corona2.material.opacity=.36+Math.sin(t*1.4)*.08;
+
+ // Smoothly move the camera to a selected planet.
+ if(selected&&currentState===4){
+  const p=selected.mesh.position;
+  targetFocus.lerp(p,1-Math.exp(-dt*2));
+  targetDist=mix(targetDist,selected.s.size*5+7,1-Math.exp(-dt*.9));
+ }else{
+  targetFocus.lerp(new THREE.Vector3(0,0,0),1-Math.exp(-dt*1.3));
+ }
+ camYaw=mix(camYaw,targetYaw,1-Math.exp(-dt*4));
+ camPitch=mix(camPitch,targetPitch,1-Math.exp(-dt*4));
+ camDist=mix(camDist,targetDist,1-Math.exp(-dt*4));
+
+ const cp=Math.cos(camPitch);
+ camera.position.set(
+  targetFocus.x+Math.sin(camYaw)*cp*camDist,
+  targetFocus.y+Math.sin(camPitch)*camDist,
+  targetFocus.z+Math.cos(camYaw)*cp*camDist
+ );
+ camera.lookAt(targetFocus);
+
+ $('stats').textContent=
+ `COSMIC ENGINE · ${COUNT.toLocaleString()} PARTICLES · STAGE ${currentState+1}/5`;
+ renderer.render(scene,camera);
+}
+animate();
+
+window.addEventListener('resize',()=>{
+ camera.aspect=innerWidth/innerHeight;
+ camera.updateProjectionMatrix();
+ renderer.setSize(innerWidth,innerHeight);
+ renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.65));
+});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | APEX Technologies</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            color: #f5f7ff;
+            background:
+                radial-gradient(ellipse at top, #142747, transparent 55%),
+                linear-gradient(135deg, #050812, #0a1020, #050812);
+            min-height: 100vh;
+            line-height: 1.7;
+        }
+
+        header {
+            padding: 22px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ffffff15;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        .logo span {
+            color: #42baff;
+        }
+
+        nav a {
+            color: #c6d2e7;
+            text-decoration: none;
+            margin-left: 22px;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #42baff;
+        }
+
+        .hero {
+            padding: 90px 20px 65px;
+            text-align: center;
+        }
+
+        .tag {
+            color: #42baff;
+            letter-spacing: 4px;
+            font-size: 12px;
+            margin-bottom: 18px;
+        }
+
+        h1 {
+            font-size: clamp(38px, 7vw, 66px);
+            line-height: 1.15;
+            margin-bottom: 22px;
+        }
+
+        h1 span {
+            color: #42baff;
+        }
+
+        .hero p {
+            max-width: 680px;
+            margin: auto;
+            color: #aab6cc;
+            font-size: 17px;
+        }
+
+        .content {
+            max-width: 1050px;
+            padding: 0 22px 80px;
+            margin: auto;
+        }
+
+        .card {
+            background: linear-gradient(
+                145deg,
+                #111c30cc,
+                #0a1221dd
+            );
+            border: 1px solid #30466480;
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 50px #00000020;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            border-color: #42baff70;
+            transform: translateY(-3px);
+        }
+
+        .card h2 {
+            font-size: 27px;
+            margin-bottom: 15px;
+        }
+
+        .card h2 span {
+            color: #42baff;
+        }
+
+        .card p {
+            color: #b5c1d6;
+            margin-bottom: 14px;
+        }
+
+        .values {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 22px;
+        }
+
+        .value {
+            padding: 22px;
+            background: #101b2e;
+            border: 1px solid #263c59;
+            border-radius: 14px;
+        }
+
+        .value h3 {
+            color: #42baff;
+            margin-bottom: 8px;
+            font-size: 17px;
+        }
+
+        .value p {
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .closing {
+            text-align: center;
+            padding: 35px 20px;
+            border: 1px solid #30466480;
+            border-radius: 20px;
+            background: #101b2e80;
+        }
+
+        .closing h2 {
+            margin-bottom: 12px;
+        }
+
+        .closing p {
+            color: #aab6cc;
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px;
+            border-top: 1px solid #ffffff15;
+            color: #72819b;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 650px) {
+            header {
+                padding: 20px;
+                gap: 15px;
+                flex-wrap: wrap;
+            }
+
+            nav {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+
+            nav a {
+                margin-left: 0;
+            }
+
+            .hero {
+                padding-top: 65px;
+            }
+
+            .card {
+                padding: 24px;
+            }
+
+            .values {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <a href="index.html"
+           class="logo"
+           style="color:inherit;text-decoration:none">
+            APEX<span>.</span>
+        </a>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="codesearch.html">Code Search</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="tag">DISCOVER OUR STORY</div>
+
+        <h1>About <span>APEX</span></h1>
+
+        <p>
+            A vision built around technology, creativity,
+            and the ambition to turn innovative ideas
+            into meaningful digital experiences.
+        </p>
+    </section>
+
+    <main class="content">
+
+        <!-- ABOUT YOU: CUSTOMIZE THIS SECTION -->
+        <section class="card">
+            <h2>About <span>Me</span></h2>
+
+            <p>Hello! I'm Aiman Mohammad Shafique, a passionate young technology enthusiast, aspiring developer, and the founder of APEX Technologies.
+
+I love exploring the world of programming, building creative digital projects, and discovering new possibilities in technology. From developing interactive games and websites to exploring artificial intelligence, robotics, and futuristic innovations, I'm always eager to learn, experiment, and turn my imagination into reality.
+
+Through APEX Technologies, I aspire to build innovative digital experiences and transform ambitious ideas into meaningful technological solutions.
+
+I believe that age is no barrier to creativity, learning, or innovation. Every great achievement begins with curiosity, determination, and the courage to dream big.
+
+My vision is to learn, create, innovate, and build technology that makes a difference.
+
+</p>
+
+            <p>
+                I created APEX Technologies as a platform
+                to explore my passion for technology and
+                build useful digital projects. My goal is
+                to keep turning creative ideas into reality.
+            </p>
+
+            <p>
+                My vision is to learn, create, innovate, and build technology that makes a difference.
+            </p>
+        </section>
+
+        <!-- ABOUT APEX -->
+        <section class="card">
+            <h2>About <span>APEX Technologies</span></h2>
+
+            <p>
+                APEX Technologies is a technology-focused
+                brand built around innovation, digital
+                creativity, and the possibilities of modern
+                computing.
+            </p>
+
+            <p>
+                The vision of APEX is to explore and develop
+                projects across software, artificial
+                intelligence, robotics, games, and interactive
+                digital experiences.
+            </p>
+
+            <p>
+                Through every project, APEX aims to combine
+                creative thinking with technology to create
+                experiences that are useful, engaging,
+                and forward-looking.
+            </p>
+        </section>
+
+        <!-- OUR VALUES -->
+        <section class="card">
+            <h2>What Drives <span>Us</span></h2>
+
+            <div class="values">
+                <div class="value">
+                    <h3>Innovation</h3>
+                    <p>
+                        Exploring new ideas and finding
+                        creative ways to use technology.
+                    </p>
+                </div>
+
+                <div class="value">
+                    <h3>Technology</h3>
+                    <p>
+                        Learning, building, and experimenting
+                        with digital tools and software.
+                    </p>
+                </div>
+
+                <div class="value">
+                    <h3>Vision</h3>
+                    <p>
+                        Working toward ambitious goals
+                        through curiosity and continuous growth.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="closing">
+            <h2>The Future Starts With an Idea.</h2>
+
+            <p>
+                APEX Technologies — Explore. Create. Innovate.
+            </p>
+        </section>
+
+    </main>
+
+    <footer>
+        © <span id="year"></span> APEX TECHNOLOGIES.
+        ALL RIGHTS RESERVED.
+    </footer>
+
+    <script>
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+    </script>
+
+</body>
+</html>

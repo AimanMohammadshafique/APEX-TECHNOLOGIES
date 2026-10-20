@@ -1,0 +1,567 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>APEX Store — Digital Products</title>
+<meta name="description" content="Explore games, digital files, software, and tools from XYZ.">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#050914">
+<meta property="og:title" content="APEX Store">
+<meta property="og:description" content="Discover digital products, games and tools.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<style>
+:root {
+  --bg: #050914;
+  --panel: #0a1425;
+  --text: #f4f7ff;
+  --muted: #9aabc5;
+  --cyan: #27d8ff;
+  --purple: #8055ff;
+  --border: rgba(110,170,255,.17);
+  --gradient: linear-gradient(110deg,#20d9ff,#4778ff 55%,#9355ff);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: Inter, Arial, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 85% 0%,rgba(57,123,255,.13),transparent 35%),
+    radial-gradient(ellipse at 0% 45%,rgba(39,216,255,.06),transparent 35%);
+}
+
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; }
+
+.container { width: min(1180px,90%); margin: auto; }
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(5,9,20,.88);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
+
+nav {
+  min-height: 76px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: 900;
+  letter-spacing: -2px;
+}
+
+.logo span, .gradient {
+  color: #4fcaff;
+  background: var(--gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.navlinks { display: flex; gap: 25px; color: #bdcce2; font-size: .9rem; }
+.navlinks a:hover { color: var(--cyan); }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 0;
+  border-radius: 50px;
+  padding: 12px 20px;
+  background: var(--gradient);
+  color: white;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.hero { padding: 76px 0 40px; }
+
+.eyebrow {
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  font-size: .75rem;
+  font-weight: 800;
+  margin-bottom: 17px;
+}
+
+h1 {
+  font-size: clamp(2.5rem,6vw,4.6rem);
+  letter-spacing: -3px;
+  line-height: 1.1;
+}
+
+.hero p { max-width: 630px; color: var(--muted); margin-top: 18px; }
+
+.searchbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 30px;
+  max-width: 680px;
+  padding: 7px 15px;
+  border: 1px solid var(--border);
+  background: rgba(12,25,44,.85);
+  border-radius: 15px;
+}
+
+.searchbar i { color: var(--cyan); }
+
+.searchbar input {
+  width: 100%;
+  min-width: 0;
+  padding: 10px 0;
+  color: white;
+  background: transparent;
+  outline: none;
+  border: 0;
+}
+
+.searchbar input::placeholder { color: #7f91ad; }
+
+.catalog { padding: 25px 0 90px; }
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-bottom: 28px;
+}
+
+.toolbar h2 { font-size: 1.45rem; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 9px; }
+
+.filter {
+  border: 1px solid var(--border);
+  background: #0b1628;
+  color: #b9c9e0;
+  padding: 9px 15px;
+  border-radius: 50px;
+  cursor: pointer;
+  font-size: .83rem;
+  transition: .2s;
+}
+
+.filter:hover, .filter.active {
+  background: rgba(39,216,255,.12);
+  color: var(--cyan);
+  border-color: rgba(39,216,255,.6);
+}
+
+.result-count { color: var(--muted); font-size: .83rem; margin-bottom: 18px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 20px;
+}
+
+.card {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: linear-gradient(145deg,rgba(12,26,47,.94),rgba(6,13,26,.96));
+  border-radius: 20px;
+  transition: transform .25s,border-color .25s;
+}
+
+.card:hover { transform: translateY(-5px); border-color: rgba(39,216,255,.5); }
+
+.cover {
+  height: 165px;
+  display: grid;
+  place-items: center;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 45%,rgba(37,151,255,.25),transparent 55%),
+    linear-gradient(135deg,#101f3b,#0a1021);
+  border-bottom: 1px solid var(--border);
+}
+
+.cover i {
+  font-size: 3.5rem;
+  color: var(--cyan);
+  filter: drop-shadow(0 0 20px rgba(39,216,255,.35));
+}
+
+.cover .purple { color: #a58aff; }
+.cover .green { color: #52e8b0; }
+.cover .orange { color: #ffba70; }
+
+.tag {
+  position: absolute;
+  left: 13px;
+  top: 13px;
+  font-size: .68rem;
+  color: #d8f8ff;
+  border: 1px solid var(--border);
+  background: rgba(5,12,25,.75);
+  padding: 5px 9px;
+  border-radius: 50px;
+}
+
+.card-body { padding: 20px; }
+
+.category {
+  color: var(--cyan);
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+  font-weight: 700;
+}
+
+.card h3 { margin: 7px 0; font-size: 1.1rem; }
+.card p { color: var(--muted); font-size: .84rem; min-height: 54px; }
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.card-bottom small { color: #8194b3; }
+
+.open-btn {
+  padding: 9px 14px;
+  border: 1px solid rgba(39,216,255,.4);
+  background: rgba(39,216,255,.08);
+  border-radius: 10px;
+  color: var(--cyan);
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+.open-btn:hover { background: rgba(39,216,255,.17); }
+
+.empty {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 60px 15px;
+  border: 1px dashed var(--border);
+  border-radius: 18px;
+  color: var(--muted);
+}
+
+.empty i { font-size: 2rem; margin-bottom: 15px; color: var(--cyan); }
+
+footer {
+  padding: 25px 0;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: .82rem;
+}
+
+footer .container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media(max-width:850px) {
+  .grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+
+@media(max-width:560px) {
+  .container { width: 91%; }
+  nav { min-height: 65px; }
+  .navlinks { gap: 12px; font-size: .78rem; }
+  .navlinks .optional { display: none; }
+  .hero { padding-top: 55px; }
+  h1 { letter-spacing: -1.8px; }
+  .grid { grid-template-columns: 1fr; }
+  .cover { height: 190px; }
+  .toolbar { align-items: flex-start; flex-direction: column; }
+  .filter { padding: 8px 12px; }
+}
+</style>
+</head>
+
+<body>
+<header>
+  <nav class="container">
+    <a class="logo" href="index.html">A<span>PEX</span></a>
+    <div class="navlinks">
+      <a href="index.html">Home</a>
+      <a href="#catalog">Products</a>
+      <a class="optional" href="index.html#about">About</a>
+    </div>
+    <a href="#catalog" class="btn">Explore <i class="fa-solid fa-arrow-right"></i></a>
+  </nav>
+</header>
+
+<main>
+  <section class="hero container">
+    <div class="eyebrow">THE APEX DIGITAL STORE</div>
+    <h1>Your Digital <span class="gradient">Universe.</span></h1>
+    <p>
+      Find your next favourite game, download useful files,
+      and explore tools built to make digital life easier.
+      Everything in one place.
+    </p>
+
+    <label class="searchbar">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input id="search" type="search"
+        placeholder="Search games, tools, files..."
+        aria-label="Search products">
+    </label>
+  </section>
+
+  <section class="catalog container" id="catalog">
+    <div class="toolbar">
+      <h2>Explore Products</h2>
+      <div class="filters" aria-label="Filter products">
+        <button class="filter active" data-category="all">All</button>
+        <button class="filter" data-category="files">Files</button>
+        <button class="filter" data-category="games">Games</button>
+        <button class="filter" data-category="tools">Tools</button>
+      </div>
+    </div>
+
+    <div class="result-count" id="count" aria-live="polite"></div>
+    <div class="grid" id="productGrid"></div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <span>© <span id="year"></span> APEX. All rights reserved.</span>
+    <a href="index.html">← Back to homepage</a>
+  </div>
+</footer>
+
+<script>
+/*
+  ADD YOUR PRODUCTS HERE.
+
+  category: files, games, or tools
+  url: a real relative path or full URL for the product.
+  Use # until you have added the actual product.
+*/
+const products = [
+  {
+    name: "Website Starter Kit",
+    category: "files",
+    description: "A starting template for creating your own website.",
+    icon: "fa-file-code",
+    color: "",
+    url: "#",
+    label: "Template"
+  },
+  {
+    name: "Python Projects",
+    category: "files",
+    description: "A collection of Python project files and examples.",
+    icon: "fa-file-lines",
+    color: "purple",
+    url: "#",
+    label: "Code"
+  },
+  {
+    name: "Cosmic Genesis",
+    category: "games",
+    description: "Explore a space-themed interactive experience.",
+    icon: "fa-earth-asia",
+    color: "purple",
+    url: "cosmic genesis.html",
+    label: "Space"
+  },
+   {
+    name: "Flappy",
+    category: "games",
+    description: "A browser-game project ready for your own creation.",
+    icon: "fa-gamepad",
+    color: "orange",
+    url: "Flappy 2.html",
+    label: "Arcade"
+  },
+  {
+    name: "snake",
+    category: "games",
+    description: "A browser-game project ready for your own creation.",
+    icon: "fa-gamepad",
+    color: "orange",
+    url: "snake.html",
+    label: "Arcade"
+  },
+  
+  {
+    name: "Smart Calculator",
+    category: "tools",
+    description: "A useful calculator project for everyday calculations.",
+    icon: "fa-calculator",
+    color: "green",
+    url: "calculator.html",
+    label: "Utility"
+  },
+  {
+    name: "Text Utilities",
+    category: "tools",
+    description: "A home for text helpers and productivity utilities.",
+    icon: "fa-wand-magic-sparkles",
+    color: "",
+    url: "#",
+    label: "Productivity"
+  }
+];
+
+const grid = document.getElementById("productGrid");
+const search = document.getElementById("search");
+const count = document.getElementById("count");
+const filters = [...document.querySelectorAll(".filter")];
+
+let activeCategory = "all";
+
+function renderProducts() {
+  const query = search.value.trim().toLowerCase();
+
+  const visible = products.filter(product => {
+    const matchesCategory =
+      activeCategory === "all" ||
+      product.category === activeCategory;
+
+    const matchesSearch =
+      (product.name + " " + product.description + " " +
+       product.category).toLowerCase().includes(query);
+
+    return matchesCategory && matchesSearch;
+  });
+
+  count.textContent =
+    `${visible.length} product${visible.length === 1 ? "" : "s"} found`;
+
+  if (!visible.length) {
+    grid.innerHTML = `
+      <div class="empty">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <h3>No products found</h3>
+        <p>Try another search or choose a different category.</p>
+      </div>`;
+    return;
+  }
+
+  grid.innerHTML = visible.map(product => {
+    const safeName = escapeHTML(product.name);
+    const safeDescription = escapeHTML(product.description);
+    const safeCategory = escapeHTML(product.category);
+    const safeLabel = escapeHTML(product.label);
+    const safeIcon = /^[a-z0-9-]+$/.test(product.icon)
+      ? product.icon : "fa-cube";
+    const safeColor = ["purple", "green", "orange"].includes(product.color)
+      ? product.color : "";
+    const safeUrl = safeHref(product.url);
+    const action = safeUrl
+      ? `<a class="open-btn" href="${safeUrl}">Open <i class="fa-solid fa-arrow-up-right-from-square"></i></a>`
+      : `<span class="open-btn" aria-label="Product link not configured">Coming soon</span>`;
+
+    return `
+      <article class="card">
+        <div class="cover">
+          <span class="tag">${safeLabel}</span>
+          <i class="fa-solid ${safeIcon} ${safeColor}"></i>
+        </div>
+        <div class="card-body">
+          <div class="category">${safeCategory}</div>
+          <h3>${safeName}</h3>
+          <p>${safeDescription}</p>
+          <div class="card-bottom">
+            <small>XYZ Digital Product</small>
+            ${action}
+          </div>
+        </div>
+      </article>`;
+  }).join("");
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
+
+function safeHref(value) {
+  const url = String(value || "").trim();
+
+  if (!url || url === "#") return "";
+
+  // Allow relative paths, local pages, and common web protocols.
+  if (/^(https?:\/\/|mailto:|\/|\.\/|\.\.\/|[a-zA-Z0-9_-])/i.test(url)) {
+    if (/^https?:\/\//i.test(url)) {
+      try {
+        const parsed = new URL(url);
+        return ["http:", "https:"].includes(parsed.protocol)
+          ? escapeHTML(parsed.href) : "";
+      } catch {
+        return "";
+      }
+    }
+
+    if (/^(mailto:|javascript:|data:)/i.test(url)) return "";
+    return escapeHTML(url);
+  }
+
+  return "";
+}
+
+filters.forEach(button => {
+  button.addEventListener("click", () => {
+    activeCategory = button.dataset.category;
+
+    filters.forEach(filter =>
+      filter.classList.toggle("active", filter === button)
+    );
+
+    renderProducts();
+  });
+});
+
+search.addEventListener("input", renderProducts);
+
+const params = new URLSearchParams(window.location.search);
+const requestedCategory = params.get("category");
+
+if (["files", "games", "tools"].includes(requestedCategory)) {
+  activeCategory = requestedCategory;
+  filters.forEach(button => {
+    button.classList.toggle(
+      "active",
+      button.dataset.category === activeCategory
+    );
+  });
+}
+
+document.getElementById("year").textContent = new Date().getFullYear();
+renderProducts();
+</script>
+</body>
+</html>

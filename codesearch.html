@@ -1,0 +1,217 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Search | APEX Technologies</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            color: white;
+            background:
+                radial-gradient(ellipse at top, #142747 0%, transparent 55%),
+                linear-gradient(135deg, #050812, #0a1020, #050812);
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            padding: 25px 7%;
+            border-bottom: 1px solid #ffffff15;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            letter-spacing: 3px;
+        }
+
+        .logo span {
+            color: #42baff;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+        }
+
+        .search-container {
+            width: 100%;
+            max-width: 650px;
+            text-align: center;
+        }
+
+        .tag {
+            color: #42baff;
+            letter-spacing: 4px;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: clamp(32px, 6vw, 52px);
+            margin-bottom: 18px;
+        }
+
+        h1 span {
+            color: #42baff;
+        }
+
+        .description {
+            color: #aab6cc;
+            line-height: 1.7;
+            margin-bottom: 35px;
+        }
+
+        .search-box {
+            padding: 8px;
+            background: #111b2e;
+            border: 1px solid #304664;
+            border-radius: 14px;
+            box-shadow: 0 0 35px #168bff12;
+        }
+
+        input {
+            width: 100%;
+            padding: 18px;
+            color: white;
+            font-size: 16px;
+            background: transparent;
+            border: none;
+            outline: none;
+        }
+
+        input::placeholder {
+            color: #8290a8;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 18px;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #087be8, #36baff);
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px #168bff45;
+        }
+
+        #message {
+            min-height: 24px;
+            margin-top: 18px;
+            color: #ff9c9c;
+            font-size: 14px;
+        }
+
+        footer {
+            padding: 22px;
+            text-align: center;
+            color: #72819b;
+            border-top: 1px solid #ffffff15;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 22px;
+            }
+
+            .description {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">APEX<span>.</span></div>
+    </header>
+
+    <main>
+        <div class="search-container">
+
+            <div class="tag">APEX DEVELOPER TOOLS</div>
+
+            <h1>Code <span>Search</span></h1>
+
+            <p class="description">
+                Enter your codeword below to discover
+                the destination you are looking for.
+            </p>
+
+            <form id="searchForm">
+                <div class="search-box">
+                    <input
+                        type="text"
+                        id="codeword"
+                        placeholder="Enter your codeword..."
+                        autocomplete="off"
+                        required
+                    >
+                </div>
+
+                <button type="submit">SEARCH CODE →</button>
+            </form>
+
+            <p id="message" role="status"></p>
+
+        </div>
+    </main>
+
+    <footer>
+        APEX TECHNOLOGIES · INNOVATION STARTS HERE
+    </footer>
+
+    <script>
+        // Add your own codewords and destination pages here.
+        const codePages = {
+            "COSMIC": "cosmic genesis.html",
+            "SNAKE": "Snake.html",
+            "CALC": "calculator.html",
+             "IQRA": "file.html"
+        };
+
+        const form = document.getElementById("searchForm");
+        const input = document.getElementById("codeword");
+        const message = document.getElementById("message");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const code = input.value.trim().toUpperCase();
+
+            if (codePages[code]) {
+                window.location.href = codePages[code];
+            } else {
+                message.textContent =
+                    "Codeword not found. Please try again.";
+            }
+        });
+    </script>
+
+</body>
+</html>
