@@ -1,0 +1,291 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b14">
+<title>VaultFX — Currency Converter</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#080b14;--panel:#111827;--muted:#8995aa;--line:#263147;--cyan:#60f0d0;--blue:#7296ff}
+body{
+  min-height:100vh;background:
+  radial-gradient(ellipse at 15% 5%,#18354b66,transparent 38%),
+  radial-gradient(ellipse at 90% 80%,#30245b55,transparent 40%),var(--bg);
+  color:#f5f7ff;font-family:Inter,Segoe UI,Arial,sans-serif;
+  display:flex;justify-content:center;padding:28px 16px;
+}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.app{width:100%;max-width:1020px}
+header{display:flex;align-items:center;justify-content:space-between;margin-bottom:35px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;
+background:linear-gradient(135deg,var(--cyan),#6888ff);color:#07111a;font-size:24px;font-weight:900;
+box-shadow:0 0 28px #60f0d033}
+.brand h1{font-size:22px;letter-spacing:1.5px}
+.brand p{font-size:11px;color:var(--muted);letter-spacing:2px;margin-top:4px}
+.offline{font-size:12px;color:var(--cyan);border:1px solid #60f0d044;padding:9px 12px;border-radius:30px}
+.offline i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--cyan);margin-right:7px}
+.hero{text-align:center;margin:32px 0 27px}
+.eyebrow{color:var(--cyan);font-size:11px;font-weight:800;letter-spacing:3px}
+.hero h2{font-size:clamp(32px,6vw,55px);letter-spacing:-2px;margin:14px 0}
+.hero h2 span{background:linear-gradient(90deg,var(--cyan),var(--blue));color:transparent;background-clip:text}
+.hero p{color:var(--muted);font-size:14px;line-height:1.7}
+.layout{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(240px,.7fr);gap:18px}
+.panel{background:linear-gradient(145deg,#151d2df2,#0d1320f5);border:1px solid var(--line);
+border-radius:25px;padding:25px;box-shadow:0 20px 60px #0003}
+.panel-title{font-size:14px;font-weight:700;margin-bottom:23px}
+.label{font-size:11px;color:var(--muted);letter-spacing:1.5px;font-weight:700;margin-bottom:10px;display:block}
+.amount-box{background:#0a101c;border:1px solid var(--line);border-radius:16px;padding:17px;margin-bottom:15px}
+.amount-box:focus-within{border-color:#60f0d077}
+.amount-box input{width:100%;border:0;outline:0;background:transparent;color:white;font-size:32px;font-weight:700;min-width:0}
+.currency-row{display:grid;grid-template-columns:1fr 44px 1fr;align-items:center;gap:10px;margin:19px 0}
+.currency{min-width:0;background:#0a101c;border:1px solid var(--line);border-radius:15px;padding:13px 10px}
+.currency select{width:100%;border:0;outline:0;background:transparent;color:#fff;font-size:14px;font-weight:700}
+.currency select option{background:#111827;color:white}
+.flag{font-size:24px;margin-bottom:8px}
+.swap{width:43px;height:43px;border:1px solid #60f0d044;border-radius:14px;background:#152c31;color:var(--cyan);font-size:22px;transition:.2s}
+.swap:hover{transform:rotate(180deg);background:#20423f}
+.result{border:1px solid #60f0d044;background:linear-gradient(115deg,#142b2d,#18233b);
+border-radius:18px;padding:20px;margin-top:20px}
+.result-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.result-top span{font-size:11px;color:#a9bdc8;letter-spacing:1px}
+.copy{border:1px solid #ffffff20;border-radius:9px;background:#ffffff08;color:white;padding:7px 10px;font-size:11px}
+.result-value{font-size:clamp(27px,4vw,40px);font-weight:800;overflow-wrap:anywhere;margin:13px 0}
+.result-value small{font-size:16px;color:var(--cyan)}
+.rate{font-size:12px;color:#9aabbf;line-height:1.8}
+.quick{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.quick button{flex:1;min-width:55px;padding:10px 5px;border:1px solid var(--line);border-radius:10px;background:#0a101c;color:#b9c4d7;font-size:12px}
+.quick button:hover{border-color:var(--cyan);color:var(--cyan)}
+.side .panel{height:100%}
+.side-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}
+.side-heading h3{font-size:15px}
+.clear{border:0;background:transparent;color:var(--muted);font-size:11px}
+.history{display:flex;flex-direction:column;gap:12px}
+.history-item{border:1px solid var(--line);background:#0b111d;border-radius:13px;padding:13px}
+.history-item .pair{font-size:12px;color:var(--muted);margin-bottom:7px}
+.history-item strong{font-size:15px;overflow-wrap:anywhere}
+.history-item small{display:block;color:var(--muted);margin-top:5px;font-size:11px}
+.empty{text-align:center;color:var(--muted);font-size:13px;padding:40px 5px;line-height:1.8}
+.notice{font-size:11px;color:var(--muted);line-height:1.7;margin-top:20px}
+footer{text-align:center;margin-top:28px;color:#647087;font-size:11px;line-height:1.9}
+.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;
+background:#172b2b;border:1px solid #60f0d066;color:var(--cyan);padding:12px 18px;border-radius:12px;transition:.25s;font-size:13px}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:700px){
+ body{padding:20px 12px}
+ header{margin-bottom:20px}
+ .hero{margin:27px 0 23px}
+ .layout{grid-template-columns:1fr}
+ .panel{padding:20px;border-radius:21px}
+ .brand h1{font-size:18px}
+ .brand p{font-size:9px}
+ .offline{font-size:10px;padding:8px}
+ .side .panel{min-height:230px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+ <div class="brand">
+  <div class="logo">V</div>
+  <div><h1>VAULT<span style="color:var(--cyan)">FX</span></h1><p>SMART CURRENCY TOOLS</p></div>
+ </div>
+ <div class="offline"><i></i>OFFLINE MODE</div>
+</header>
+
+<section class="hero">
+ <div class="eyebrow">YOUR MONEY · YOUR CONTROL</div>
+ <h2>Currency, <span>simplified.</span></h2>
+ <p>Fast conversions. Zero internet. No subscriptions.<br>Designed for your everyday world.</p>
+</section>
+
+<div class="layout">
+<main class="panel">
+ <div class="panel-title">✦ &nbsp; Currency converter</div>
+ <label class="label" for="amount">YOU SEND</label>
+ <div class="amount-box">
+  <input id="amount" type="number" min="0" step="any" value="100" inputmode="decimal">
+ </div>
+
+ <div class="currency-row">
+  <div class="currency">
+   <div class="flag" id="flagFrom">🇮🇳</div>
+   <select id="from" aria-label="From currency"></select>
+  </div>
+  <button class="swap" id="swap" aria-label="Swap currencies">⇄</button>
+  <div class="currency">
+   <div class="flag" id="flagTo">🇺🇸</div>
+   <select id="to" aria-label="To currency"></select>
+  </div>
+ </div>
+
+ <label class="label">QUICK AMOUNT</label>
+ <div class="quick">
+  <button data-value="100">100</button>
+  <button data-value="500">500</button>
+  <button data-value="1000">1K</button>
+  <button data-value="5000">5K</button>
+  <button data-value="10000">10K</button>
+ </div>
+
+ <div class="result">
+  <div class="result-top"><span>YOU RECEIVE (ESTIMATE)</span><button class="copy" id="copy">▢ Copy</button></div>
+  <div class="result-value" id="output">—</div>
+  <div class="rate" id="rate">Calculating…</div>
+ </div>
+ <p class="notice">ⓘ Rates are built-in estimates for offline use, not live market quotes. Update the rates in the code periodically. Actual bank and exchange-service rates may differ.</p>
+</main>
+
+<aside class="side">
+ <div class="panel">
+  <div class="side-heading"><h3>◷ Recent conversions</h3><button class="clear" id="clear">CLEAR ALL</button></div>
+  <div class="history" id="history"></div>
+ </div>
+</aside>
+</div>
+
+<footer>VAULTFX © 2026 &nbsp;·&nbsp; PRIVATE BY DESIGN<br>All calculations happen locally on your device.</footer>
+</div>
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+"use strict";
+
+// Approximate units per 1 USD. These are illustrative offline rates,
+// not guaranteed current exchange rates. Edit this object to update them.
+const currencies = {
+ INR:{name:"Indian Rupee",flag:"🇮🇳",usd:83.5},
+ USD:{name:"US Dollar",flag:"🇺🇸",usd:1},
+ EUR:{name:"Euro",flag:"🇪🇺",usd:0.92},
+ GBP:{name:"British Pound",flag:"🇬🇧",usd:0.79},
+ JPY:{name:"Japanese Yen",flag:"🇯🇵",usd:150},
+ CNY:{name:"Chinese Yuan",flag:"🇨🇳",usd:7.2},
+ CAD:{name:"Canadian Dollar",flag:"🇨🇦",usd:1.36},
+ AUD:{name:"Australian Dollar",flag:"🇦🇺",usd:1.52},
+ CHF:{name:"Swiss Franc",flag:"🇨🇭",usd:0.89},
+ NZD:{name:"New Zealand Dollar",flag:"🇳🇿",usd:1.65},
+ SGD:{name:"Singapore Dollar",flag:"🇸🇬",usd:1.35},
+ HKD:{name:"Hong Kong Dollar",flag:"🇭🇰",usd:7.8},
+ AED:{name:"UAE Dirham",flag:"🇦🇪",usd:3.67},
+ SAR:{name:"Saudi Riyal",flag:"🇸🇦",usd:3.75},
+ PKR:{name:"Pakistani Rupee",flag:"🇵🇰",usd:278},
+ BDT:{name:"Bangladeshi Taka",flag:"🇧🇩",usd:110},
+ LKR:{name:"Sri Lankan Rupee",flag:"🇱🇰",usd:300},
+ NPR:{name:"Nepalese Rupee",flag:"🇳🇵",usd:133.5},
+ THB:{name:"Thai Baht",flag:"🇹🇭",usd:36},
+ MYR:{name:"Malaysian Ringgit",flag:"🇲🇾",usd:4.7},
+ KRW:{name:"South Korean Won",flag:"🇰🇷",usd:1350},
+ RUB:{name:"Russian Ruble",flag:"🇷🇺",usd:90},
+ ZAR:{name:"South African Rand",flag:"🇿🇦",usd:18.5},
+ BRL:{name:"Brazilian Real",flag:"🇧🇷",usd:5.1},
+ MXN:{name:"Mexican Peso",flag:"🇲🇽",usd:17}
+};
+
+const $ = id => document.getElementById(id);
+const from = $("from"), to = $("to"), amount = $("amount");
+let historyItems = [];
+
+function setupSelect(select, selected) {
+ select.innerHTML = Object.entries(currencies).map(([code,c]) =>
+  `<option value="${code}" ${code===selected?"selected":""}>${code} · ${c.name}</option>`
+ ).join("");
+}
+setupSelect(from,"INR");
+setupSelect(to,"USD");
+
+function fmt(value, code) {
+ try {
+  return new Intl.NumberFormat("en-US",{
+   style:"currency",currency:code,
+   maximumFractionDigits: code==="JPY"||code==="KRW"?0:2
+  }).format(value);
+ } catch {
+  return value.toFixed(2)+" "+code;
+ }
+}
+function convert() {
+ const n = Number(amount.value);
+ const a = currencies[from.value], b = currencies[to.value];
+ $("flagFrom").textContent = a.flag;
+ $("flagTo").textContent = b.flag;
+
+ if(amount.value.trim()==="" || !Number.isFinite(n) || n<0) {
+  $("output").textContent="Enter a valid amount";
+  $("rate").textContent="Use a number equal to or greater than zero.";
+  return null;
+ }
+ const result = n / a.usd * b.usd;
+ $("output").textContent = fmt(result,to.value);
+ const one = b.usd/a.usd;
+ $("rate").textContent =
+  `1 ${from.value} ≈ ${one.toLocaleString("en-US",{maximumFractionDigits:6})} ${to.value} · Offline estimate`;
+ return {n,result,one};
+}
+function renderHistory() {
+ const el=$("history");
+ if(!historyItems.length) {
+  el.innerHTML='<div class="empty">◷<br>No conversions yet.<br>Your recent calculations will appear here.</div>';
+  return;
+ }
+ el.innerHTML=historyItems.map(item=>`
+  <div class="history-item">
+   <div class="pair">${item.from} → ${item.to}</div>
+   <strong>${fmt(item.result,item.to)}</strong>
+   <small>${fmt(item.amount,item.from)} · ${item.time}</small>
+  </div>`).join("");
+}
+function showToast(message) {
+ $("toast").textContent=message;
+ $("toast").classList.add("show");
+ setTimeout(()=>$("toast").classList.remove("show"),1800);
+}
+[from,to].forEach(el=>el.addEventListener("change",convert));
+amount.addEventListener("input",convert);
+
+$("swap").addEventListener("click",()=>{
+ const previous=from.value;
+ from.value=to.value;
+ to.value=previous;
+ convert();
+});
+document.querySelectorAll("[data-value]").forEach(btn=>{
+ btn.addEventListener("click",()=>{
+  amount.value=btn.dataset.value;
+  const result=convert();
+  if(result) {
+   historyItems.unshift({from:from.value,to:to.value,amount:result.n,
+    result:result.result,time:new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})});
+   historyItems=historyItems.slice(0,8);
+   renderHistory();
+  }
+ });
+});
+$("copy").addEventListener("click",async()=>{
+ const result=convert();
+ if(!result)return;
+ const text=fmt(result.result,to.value);
+ try {
+  if(navigator.clipboard && window.isSecureContext) await navigator.clipboard.writeText(text);
+  else {
+   const temp=document.createElement("textarea");
+   temp.value=text;temp.style.position="fixed";temp.style.opacity="0";
+   document.body.appendChild(temp);temp.select();
+   const ok=document.execCommand("copy");temp.remove();
+   if(!ok)throw Error("Copy failed");
+  }
+  showToast("Copied: "+text);
+ } catch { showToast("Copy unavailable on this device"); }
+});
+$("clear").addEventListener("click",()=>{
+ historyItems=[];
+ renderHistory();
+});
+convert();
+renderHistory();
+</script>
+</body>
+</html>
